@@ -48,9 +48,9 @@ app.post('/register', (req, res) => {
 
 // Ruta de inicio de sesión
 app.post('/login', (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
-  connection.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
+  connection.query('SELECT * FROM users WHERE email = ?', [email], (err, results) => {
     if (err) {
       console.error('Error al realizar la consulta: ', err);
       res.status(500).json({ error: 'Error interno del servidor' });
@@ -101,7 +101,7 @@ function verifyToken(req, res, next) {
 }
 
 // Puerto de escucha
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);
 });

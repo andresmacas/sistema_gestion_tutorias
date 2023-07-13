@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Tinos&display=swap');
+
+.span{
+    --font-principal: 'Tinos', serif;
+    font-family: 'Tinos', serif;
+}
+
+.body {
+    background-color: #000;
+}
+
+.navbar {
+    --tw-text-opacity: 1;
+    justify-content: center;
+    color: rgb(243 244 246 / var(--tw-text-opacity));
+    transition-duration: 500ms;
+    height: 100vh;
+    background-color: #000;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.icon {
+    transition-duration: 500ms;
+    width: 20px;
+    height: 20px;
+    background-size: cover;
+}
