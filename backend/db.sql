@@ -3,5 +3,8 @@ CREATE TABLE IF NOT EXISTS users (
     id_rol INTEGER NOT NULL,
     email VARCHAR(100) NOT NULL,
     password VARCHAR(255) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    lastname VARCHAR(100) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+

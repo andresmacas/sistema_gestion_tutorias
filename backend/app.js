@@ -25,14 +25,18 @@ connection.connect((err) => {
   console.log('Conexión a la base de datos establecida');
 });
 
-// Ruta de registro
+// Ruta de registro, rol 0 = estudainte; 1 = docente
 app.post('/register', (req, res) => {
-  const { email, id_rol, password } = req.body;
+  const { email, id_rol, password, name, lastname } = req.body;
   const hashedPassword = bcrypt.hashSync(password, 10);
-
+  if (id_rol == null){
+    id_rol = 0;
+  }
   const user = {
     email,
     id_rol,
+    name,
+    lastname,
     password: hashedPassword,
   };
 
