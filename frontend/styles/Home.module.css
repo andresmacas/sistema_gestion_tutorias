@@ -1,21 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
 .container {
-    background-color: #ffffff;
+    background-color: #121317;
     width: 100vw;
     border-radius: 12px;
     height: fit-content;
     margin: 1%;
-    padding: 10px;
+    padding: 30px;
 }
 
 .tittle {
-    --black: #000;
-    font-size: 30px;
-    --font-principal: 'Roboto', sans-serif;
+    color: #fff;
+    font-size: 25px;
+    --font-principal: 'Inter', sans-serif;
     font-family: var(--font-principal);
-    padding-left: 10px;
     padding-bottom: 10px;
 }
 
@@ -26,6 +25,7 @@
     border-collapse: collapse;
     --font-principal: 'Quicksand', sans-serif;
     font-family: var(--font-principal);
+    border-radius: 10px;
 }
 
 .th {

@@ -4,8 +4,8 @@ import React from 'react';
 export default function Home() {
 
     return (
-        <div>
-            <SideNavBar />
+        <div className='flex h-screen'>
+            <SideNavBar/>
         </div>
     )
 }
