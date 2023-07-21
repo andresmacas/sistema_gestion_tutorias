@@ -8,18 +8,18 @@
 		<version>2.7.14</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>SgTutorias</groupId>
-	<artifactId>sgTutorias</artifactId>
+	<groupId>com.computacion</groupId>
+	<artifactId>gestion_tutorias</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>sgTutorias</name>
-	<description>Proyecto PIS (Gestión Tutorias)</description>
+	<name>gestion_tutorias</name>
+	<description>Sistema de gestion de tutorias</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<dependency>
