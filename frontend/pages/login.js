@@ -3,8 +3,30 @@ import bg from '../public/images/login_background.jpg';
 import styles from '../styles/Login.module.css'
 import { useState } from 'react';
 import Link from 'next/link';
-
+import { loginUser } from './api/api';
+import { useRouter } from 'next/router';
 export default function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const router = useRouter();
+    const handleLogin = async () => {
+        try {
+            loginUser(email, password)
+                .then((response) => {
+                    console.log(response.data.data.token); // Aquí puedes acceder a los datos de la respuesta
+
+                    if (response.data.code == "200 OK") {
+                        localStorage.setItem('token', response.data.data.token);
+                        router.push('/home');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error al iniciar sesión:', error);
+                });
+        } catch (error) {
+            console.log("error: " + error);
+        }
+    };
     const [showPassword, setShowPassword] = useState(false);
     const handleTogglePassword = () => {
         var tipo = document.getElementById("password");
@@ -36,16 +58,16 @@ export default function Login() {
                     </Link>
                 </h1>
                 <div className={styles.inputContainer}>
-                    <input className={styles.input} style={{ width: '330px' }} type="text" />
+                    <input className={styles.input} style={{ width: '330px' }} type="text" id='email' value={email} onChange={(e) => setEmail(e.target.value)} />
                     <span className={styles.span}>Email</span>
                     <div className={styles.icon} style={{ backgroundImage: `url("/images/icon_email.png")` }} />
                 </div>
                 <div className={styles.inputContainer} >
-                    <input className={styles.input} style={{ width: '330px' }} type="password" name="password" id="password" />
+                    <input className={styles.input} style={{ width: '330px' }} type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     <span className={styles.span}>Password</span>
                     <div className={styles.iconToggle} style={{ backgroundImage: `url(${showIcon})` }} onClick={handleTogglePassword} />
                 </div>
-                <button href='/home' className={styles.button} style={{ width: '330px' }}>Log In</button>
+                <button onClick={handleLogin} className={styles.button} style={{ width: '330px' }}>Log In</button>
             </div>
         </div>
 

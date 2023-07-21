@@ -53,11 +53,11 @@ public class CuentaController {
                 return RespuestaLista.respuesta(mapa, "OK");
             }else{
                 mapa.put("evento", "Cuenta no encontrada");
-                return RespuestaLista.respuesta(mapa, "No se encontró la cuenta con sus credenciales");
+                return RespuestaLista.respuestaError(mapa, "No se encontró la cuenta con sus credenciales");
             }
         }else{
             mapa.put("evento", "Cuenta no encontrada");
-            return RespuestaLista.respuesta(mapa, "No se encontró la cuenta con sus credenciales");
+            return RespuestaLista.respuestaError(mapa, "No se encontró la cuenta con sus credenciales");
         }
     }
     /**
