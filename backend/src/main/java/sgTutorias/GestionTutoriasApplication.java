@@ -1,4 +1,4 @@
-package com.computacion.gestion_tutorias;
+package sgTutorias;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
