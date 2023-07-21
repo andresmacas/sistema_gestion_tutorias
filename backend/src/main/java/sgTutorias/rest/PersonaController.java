@@ -39,6 +39,7 @@ public class PersonaController {
     private RolRepository rolRepository;
     @Autowired
     private CuentaRepository cuentaRepository;
+
     @Autowired
 
     /**
@@ -65,7 +66,6 @@ public class PersonaController {
         }
         return RespuestaLista.respuestaLista(mapa);
     }
-
 
     /**
      * Método para guardar Personas, con sus cuenta de correo y clave
@@ -121,11 +121,12 @@ public class PersonaController {
             aux.put("Identificacion", p.getIdentificacion());
             aux.put("Telefono", p.getTelefono());
             aux.put("Tipo Identificacion", p.getRol().getNombre());
+            aux.put("Cuenta_external", p.getCuenta().getExternal_id());
             return RespuestaLista.respuestaLista(aux);
         } else {
             HashMap mapa = new HashMap<>();
             mapa.put("evento", "Objeto no encontrado");
-            return RespuestaLista.respuesta(mapa, "No se encontro el onjeto desaeado");
+            return RespuestaLista.respuestaError(mapa, "No se encontro el onjeto desaeado");
         }
     }
 
@@ -146,6 +147,7 @@ public class PersonaController {
             aux.put("Direccion", p.getDireccion());
             aux.put("Identificacion", p.getIdentificacion());
             aux.put("Telefono", p.getTelefono());
+            aux.put("Cuenta_external", p.getCuenta().getId());
             return RespuestaLista.respuestaLista(aux);
 
         } else {
@@ -154,4 +156,35 @@ public class PersonaController {
             return RespuestaLista.respuesta(mapa, "No se encontro el onjeto desaeado");
         }
     }
+
+    /**
+     * Método para editar la información de una persona en especifico
+     * 
+     * @param externalId
+     */
+    @PostMapping("/personas/editar/{external}")
+    public ResponseEntity editarPersona(@Valid @PathVariable String external, @RequestBody PersonaWS personaWS) {
+        HashMap mapa = new HashMap<>();
+        Persona persona = personaRepository.findByExternal_id(external);
+        Rol rol = rolRepository.findByNombreRol(personaWS.getTipo_persona());
+        if (personaWS.getCuenta() != null) {
+            personaWS.cargarObjeto(persona);
+            Cuenta cuenta = cuentaRepository.findByCorreo(personaWS.getCuenta().getCorreo());
+            // estado Cuenta
+            cuenta.setUpdateAt(new Date());
+            cuenta.setCorreo(personaWS.getCuenta().getCorreo());
+            cuenta.setClave(Utilidades.clave(personaWS.getCuenta().getClave()));
+            cuenta.setPersona(persona);
+            persona.setUpdateAt(new Date());
+            persona.setRol(rol);
+            persona.setCuenta(cuenta);
+            personaRepository.save(persona);
+            mapa.put("evento", "Se ha Modificado correctamente");
+            return RespuestaLista.respuesta(mapa, "OK");
+        } else {
+            mapa.put("evento", "Objeto no encontrado");
+            return RespuestaLista.respuestaError(mapa, "No se encontro la Persona");
+        }
+    }
+
 }
