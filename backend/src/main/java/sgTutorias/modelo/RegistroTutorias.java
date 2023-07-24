@@ -3,6 +3,7 @@ package sgTutorias.modelo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,7 +25,7 @@ import lombok.Setter;
 @Getter
 @Setter
 
-@Entity(name = "registroTutorias")
+@Entity
 @Table(name = "registroTutorias")
 public class RegistroTutorias implements Serializable{
     @Id
@@ -47,8 +49,8 @@ public class RegistroTutorias implements Serializable{
     @Column(length = 36)
     private String external_id;
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(referencedColumnName = "id", name = "id_persona")
+    @JoinColumn(referencedColumnName = "id", name = "id_persona", nullable = false)
     private Persona persona;
-    //@OneToMany(mappedBy = "registroTutorias", cascade = CascadeType.ALL)
-    //private List<Tutorias> tutorias;
+    @OneToMany(mappedBy = "registroTutorias", cascade = CascadeType.ALL)
+    private List<Tutorias> tutorias;
 }
