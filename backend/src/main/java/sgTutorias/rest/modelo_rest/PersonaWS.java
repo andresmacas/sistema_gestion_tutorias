@@ -1,6 +1,7 @@
 package sgTutorias.rest.modelo_rest;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.validation.constraints.NotBlank;
@@ -32,6 +33,7 @@ public class PersonaWS {
     private String external_id;
     private String tipo_persona;
     private CuentaWS cuenta;
+    private List<RegistroTutoriasWS> registrosTutorias;    
     private String external_cuenta;
 /**
  * 

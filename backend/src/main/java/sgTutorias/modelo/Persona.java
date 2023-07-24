@@ -2,6 +2,7 @@ package sgTutorias.modelo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -48,4 +50,6 @@ public class Persona implements Serializable{
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(referencedColumnName = "id", name = "id_rol")
     private Rol rol;
+    @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL)
+    private List<RegistroTutorias> registrosTutorias;
 }
