@@ -21,17 +21,17 @@ function SideNavBar() {
                     </div>
                     <h1 className={styles2.minimalistsubtitle}>Menu</h1>
 
-                    <Link href="/tutorias" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-gray-900 rounded-md'>
+                    <Link href="/tutorias" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-zinc-900 rounded-md'>
                         <div className={styles.icon} style={{ backgroundImage: `url("/images/icon_tutorias.png")` }} />
                         <span className={` whitespace-pre duration-500 ${!open && 'opacity-0 overflow-hidden hidden'}`}>Tutorias</span>
                     </Link>
 
-                    <Link href="/login" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-gray-900 rounded-md'>
+                    <Link href="/login" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-zinc-900 rounded-md'>
                         <div className={styles.icon} style={{ backgroundImage: `url("/images/icon_materias.png")` }} />
                         <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 overflow-hidden hidden'}`}>Asignaturas</span>
                     </Link>
 
-                    <Link href="/login" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-gray-900 rounded-md'>
+                    <Link href="/configuracion" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-zinc-900 rounded-md'>
                         <div className={styles.icon} style={{ backgroundImage: `url("/images/icon_credentials_user.png")` }} />
                         <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 overflow-hidden hidden'}`}>Perfil</span>
                     </Link>

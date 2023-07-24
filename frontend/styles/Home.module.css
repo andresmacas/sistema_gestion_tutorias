@@ -19,6 +19,17 @@
 }
 
 
+.minimalistsubtitleWhite{
+    color: #fff;
+    --fs-20: 10px;
+    --fs-32: 22px;
+    font-size: 14px;
+    --font-principal: 'Quicksand', sans-serif;
+    font-family: var(--font-principal); 
+    opacity: 0.68;
+  }
+
+
 .table {
     left: 30px;
     width: 100%;

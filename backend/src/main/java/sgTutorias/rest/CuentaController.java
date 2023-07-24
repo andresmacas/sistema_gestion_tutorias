@@ -46,7 +46,7 @@ public class CuentaController {
         if(cuenta != null){
             if(Utilidades.verificar(cuentaWS.getClave(), cuenta.getClave())){
                 mapa.put("token", token(cuenta));
-                mapa.put("external", cuenta.getExternal_id());
+                mapa.put("external", cuenta.getPersona().getExternal_id());
                 mapa.put("correo", cuenta.getCorreo());
                 mapa.put("nombre", cuenta.getPersona().getNombres());
                 mapa.put("rol", cuenta.getPersona().getRol().getNombre());
@@ -69,7 +69,7 @@ public class CuentaController {
         .commaSeparatedStringToAuthorityList(cuenta.getPersona().getRol().getNombre());
         String token = Jwts.builder().setId(cuenta.getExternal_id()).setSubject(cuenta.getCorreo())
         .setIssuedAt(new Date(System.currentTimeMillis()))
-        .setExpiration(new Date(System.currentTimeMillis()+600000))
+        .setExpiration(new Date(System.currentTimeMillis()+600000000))
         .claim("authorities", grantedAuthorities.stream()
         .map(GrantedAuthority::getAuthority)
         .collect(Collectors.toList()))

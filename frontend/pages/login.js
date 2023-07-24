@@ -3,7 +3,7 @@ import bg from '../public/images/login_background.jpg';
 import styles from '../styles/Login.module.css'
 import { useState } from 'react';
 import Link from 'next/link';
-import { loginUser } from './api/api';
+import { loginUser, obtener } from './api/api';
 import { useRouter } from 'next/router';
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -13,10 +13,8 @@ export default function Login() {
         try {
             loginUser(email, password)
                 .then((response) => {
-                    console.log(response.data.data.token); // Aquí puedes acceder a los datos de la respuesta
-
+                    console.log(response.data.data.external); // Aquí puedes acceder a los datos de la respuesta
                     if (response.data.code == "200 OK") {
-                        localStorage.setItem('token', response.data.data.token);
                         router.push('/home');
                     }
                 })

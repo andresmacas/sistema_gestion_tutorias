@@ -1,71 +1,67 @@
 import Head from 'next/head';
 import bg from '../public/images/login_background.jpg';
-import styles from '../styles/Login.module.css'
+import styles from '../styles/Login.module.css';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { registro } from './api/api';
 export default function Register() {
+    const [password, setPassword] = useState('');
     const router = useRouter();
-
-    const [formData, setFormData] = useState({
+    const [data, setData] = useState({
         apellidos: '',
         nombres: '',
         identificacion: '',
         direccion: '',
         telefono: '',
-        tipo_persona: 'estudiante',
+        tipo_persona: "estudiante",
         cuenta: {
             correo: '',
             clave: '',
-        },
+        }
     });
 
-
-
-
-    const handleRegister = async () => {
-        try {
-            // Realizar el registro enviando los datos de formData al backend
-            // Por ejemplo, usando una función de registro en la API
-            const response = await registerUser(formData);
-
-            // Obtener el token de la respuesta del backend
-            setUserData({
-                ...formData,
-            });
-
-            // Redirigir al usuario a la página de inicio después del registro exitoso
-            router.push('/home');
-        } catch (error) {
-            // Manejar errores de registro aquí
-            console.error('Error al registrar el usuario:', error);
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        if (name == "correo" || name == "clave") {
+            setData((prevData) => ({
+                ...prevData,
+                cuenta: {
+                    ...prevData.cuenta,
+                    [name]: value,
+                },
+            }));
+        } else {
+            setData((prevData) => ({
+                ...prevData,
+                [name]: value,
+            }));
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const formElement = document.getElementById('formData');
-        // Crear un nuevo objeto FormData
-        const campos = new window.FormData();
-        for (const input of formElement.elements) {
-            if (input.name) {
-                campos.append(input.name, input.value);
+        registro(data).then((response) => {
+            console.log(response);
+            if (response.code != "200 OK") {
+                alert(response.data.json);
+            } else {
+                router.push('/login');
             }
-        }
-        console.log(campos)
-        try {
-            registro(formData).then((response) => {
-                console.log(response.data); // Aquí puedes acceder a los datos de la respuesta
-                if (response.data.code == "200 OK") {
-                    router.push('/login');
-                }
-            }).catch((error) => {
-                console.error('Error al registrar:', error);
-            });
-        } catch (error) {
-            console.error('Error al registrar:', error);
-        }
+        });
+        setData({
+            apellidos: '',
+            nombres: '',
+            identificacion: '',
+            direccion: '',
+            telefono: '',
+            tipo_persona: "estudiante",
+            cuenta: {
+                correo: '',
+                clave: '',
+            }
+        });
+
     };
 
     const [showPassword, setShowPassword] = useState(false);
@@ -82,7 +78,7 @@ export default function Register() {
     const showIcon = showPassword ? "/images/icon_hide_glow.png" : "/images/icon_show_password.png";
 
     return (
-        <form id="formData" name="formData" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <div className={styles.container} style={{ backgroundImage: `url(${bg.src})`, height: '100vh', backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
                 <Head>
                     <title>Registro</title>
@@ -100,43 +96,45 @@ export default function Register() {
                         </Link>
                     </h1>
                     <div className={styles.inputContainer}>
-                        <input id='nombres' className={styles.input} style={{ width: '160px', marginRight: '10px' }} type="text" name="nombres" />
+                        <input name="nombres" value={data.nombres} onChange={handleChange} className={styles.input} style={{ width: '160px', marginRight: '10px' }} />
                         <span className={styles.spandouble}>Nombres</span>
                         <div className={styles.iconDouble} style={{ backgroundImage: `url("/images/icon_credentials_user.png")` }} />
 
-                        <input className={styles.input} style={{ width: '160px' }} type="text" name="apellidos" id="last-name" />
+                        <input value={data.apellidos} onChange={handleChange} className={styles.input} style={{ width: '160px' }} type="text" name="apellidos" id="last-name" />
                         <spanDouble>Apellidos</spanDouble>
                         <div className={styles.icon} style={{ backgroundImage: `url("/images/icon_credentials_user.png")` }} />
                     </div>
                     <div className={styles.inputContainer}>
-                        <input className={styles.input} style={{ width: '330px' }} type="text" name="correo" />
+                        <input value={data.cuenta.correo} onChange={handleChange} className={styles.input} style={{ width: '330px' }} type="text" name="correo" />
                         <span>Email</span>
                         <div className={styles.icon} style={{ backgroundImage: `url("/images/icon_email.png")` }} />
                     </div>
 
                     <div className={styles.inputContainer}>
-                        <input className={styles.input} style={{ width: '330px' }} type="text" name="identificacion" />
+                        <input value={data.identificacion} onChange={handleChange} className={styles.input} style={{ width: '330px' }} type="text" name="identificacion" />
                         <span>Identificacion</span>
                         <div className={styles.icon} style={{ backgroundImage: `url("/images/icon_id_card.png")` }} />
                     </div>
 
                     <div className={styles.inputContainer}>
-                        <input className={styles.input} style={{ width: '160px', marginRight: '10px' }} type="text" name="direccion" id="direccion" />
+                        <input value={data.direccion} onChange={handleChange} className={styles.input} style={{ width: '160px', marginRight: '10px' }} type="text" name="direccion" id="direccion" />
                         <span className={styles.spandouble}>Direccion</span>
                         <div className={styles.iconDouble} style={{ backgroundImage: `url("/images/icon_direccion.png")` }} />
 
-                        <input className={styles.input} style={{ width: '160px' }} type="text" name="telefono" id="telefono" />
+                        <input value={data.telefono} onChange={handleChange} className={styles.input} style={{ width: '160px' }} type="text" name="telefono" id="telefono" />
                         <spanDouble>Telefono</spanDouble>
                         <div className={styles.icon} style={{ backgroundImage: `url("/images/icon_phone.png")` }} />
                     </div>
 
 
                     <div className={styles.inputContainer} >
-                        <input className={styles.input} style={{ width: '330px' }} type="password" name="clave" id="clave" />
+                        <input type="password" name="clave" value={data.cuenta.clave} onChange={handleChange} className={styles.input} style={{ width: '330px' }} />
                         <span className={styles.span}>Contraseña</span>
                         <div className={styles.iconToggle} style={{ backgroundImage: `url(${showIcon})` }} onClick={handleTogglePassword} />
                     </div>
-                    <button type='submit' className={styles.button} style={{ width: '330px' }}>Registrate</button>
+                    
+                    
+                    <button type="submit" className={styles.button} style={{ width: '330px' }}>Registrate</button>
                 </div>
             </div>
         </form>

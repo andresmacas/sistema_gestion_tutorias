@@ -32,7 +32,7 @@ public class PersonaWS {
     private String external_id;
     private String tipo_persona;
     private CuentaWS cuenta;
-
+    private String external_cuenta;
 /**
  * 
  * @param persona

@@ -39,6 +39,7 @@ public class PersonaController {
     private RolRepository rolRepository;
     @Autowired
     private CuentaRepository cuentaRepository;
+
     @Autowired
 
     /**
@@ -65,7 +66,6 @@ public class PersonaController {
         }
         return RespuestaLista.respuestaLista(mapa);
     }
-
 
     /**
      * Método para guardar Personas, con sus cuenta de correo y clave
@@ -119,13 +119,16 @@ public class PersonaController {
             aux.put("Apellidos", p.getApellidos());
             aux.put("Direccion", p.getDireccion());
             aux.put("Identificacion", p.getIdentificacion());
+            aux.put("Direccion", p.getDireccion());
+            aux.put("Correo", p.getCuenta().getCorreo());
             aux.put("Telefono", p.getTelefono());
-            aux.put("Tipo Identificacion", p.getRol().getNombre());
+            aux.put("Rol", p.getRol().getNombre());
+            aux.put("Cuenta_external", p.getCuenta().getExternal_id());
             return RespuestaLista.respuestaLista(aux);
         } else {
             HashMap mapa = new HashMap<>();
             mapa.put("evento", "Objeto no encontrado");
-            return RespuestaLista.respuesta(mapa, "No se encontro el onjeto desaeado");
+            return RespuestaLista.respuestaError(mapa, "No se encontro el onjeto desaeado");
         }
     }
 
@@ -146,6 +149,7 @@ public class PersonaController {
             aux.put("Direccion", p.getDireccion());
             aux.put("Identificacion", p.getIdentificacion());
             aux.put("Telefono", p.getTelefono());
+            aux.put("Cuenta_external", p.getCuenta().getId());
             return RespuestaLista.respuestaLista(aux);
 
         } else {
@@ -154,4 +158,37 @@ public class PersonaController {
             return RespuestaLista.respuesta(mapa, "No se encontro el onjeto desaeado");
         }
     }
+
+    /**
+     * Método para editar la información de una persona (Requiere su contraseña)
+     * 
+     * @param externalId
+     */
+    @PostMapping("/personas/editar/{external}")
+    public ResponseEntity editarPersona(@Valid @PathVariable String external, @RequestBody PersonaWS personaWS) {
+        HashMap mapa = new HashMap<>();
+        Persona persona = personaRepository.findByExternal_id(external);
+        Rol rol = rolRepository.findByNombreRol(personaWS.getTipo_persona());
+        if (personaWS.getCuenta() != null && (Utilidades.verificar(personaWS.getCuenta().getClave(), persona.getCuenta().getClave()))) {
+            personaWS.cargarObjeto(persona);
+            Cuenta cuenta = cuentaRepository.findByCorreo(personaWS.getCuenta().getCorreo());
+            // estado Cuenta
+            cuenta.setUpdateAt(new Date());
+            cuenta.setCorreo(personaWS.getCuenta().getCorreo());
+            cuenta.setPersona(persona);
+            persona.setUpdateAt(new Date());
+            persona.setRol(rol);
+            persona.setCuenta(cuenta);
+            personaRepository.save(persona);
+            HashMap aux = new HashMap<>();
+            aux.put("persona_external", persona.getExternal_id());
+            aux.put("evento", "Se ha Modificado correctamente");
+            return RespuestaLista.respuesta(aux, "OK");
+
+        } else {
+            mapa.put("evento", "Objeto no encontrado o contraseña incorrecta");
+            return RespuestaLista.respuestaError(mapa, "No se encontro la Persona");
+        }
+    }
+
 }
