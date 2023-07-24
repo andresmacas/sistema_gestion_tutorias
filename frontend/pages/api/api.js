@@ -32,7 +32,7 @@ export const registro = async (data) => {
 };
 
 
-// Metodo para obtener una persona
+// Metodo para obtener el objeto persona de la sesion actual
 export const obtenerPersonaActual = async () => {
   const external_id = ObtenerExternal();
   const response = await fetch(`${BASE_URL}/personas/obtener/${external_id}`);
@@ -40,7 +40,7 @@ export const obtenerPersonaActual = async () => {
   return result;
 }
 
-// Metodo para editar una persona
+// Metodo para editar el objeto persona de la sesion actual
 export const editarPersonaActual = async (data) => {
   const external_id = ObtenerExternal();
   const response = await fetch(`${BASE_URL}/personas/editar/${external_id}`, {

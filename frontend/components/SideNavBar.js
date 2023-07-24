@@ -26,7 +26,7 @@ function SideNavBar() {
                         <span className={` whitespace-pre duration-500 ${!open && 'opacity-0 overflow-hidden hidden'}`}>Tutorias</span>
                     </Link>
 
-                    <Link href="/login" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-zinc-900 rounded-md'>
+                    <Link href="/home" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-zinc-900 rounded-md'>
                         <div className={styles.icon} style={{ backgroundImage: `url("/images/icon_materias.png")` }} />
                         <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 overflow-hidden hidden'}`}>Asignaturas</span>
                     </Link>

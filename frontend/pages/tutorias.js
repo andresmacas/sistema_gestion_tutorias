@@ -1,8 +1,12 @@
 import SideNavBar from "@/components/SideNavBar";
 import styles from '../styles/Home.module.css';
+import Head from "next/head";
 export default function Tutorias() {
     return (
         <div className="flex h-screen rounded-lg" style={{ backgroundColor: '#1a1c23' }}>
+            <Head>
+                <title>Tutorias</title>
+            </Head>
             <SideNavBar />
             <div className={styles.container}>
                 <h1 className={styles.tittle}>Tutorias</h1>
@@ -22,19 +26,19 @@ export default function Tutorias() {
                             <td class="px-4 py-3">
                                 <div class="flex items-center text-sm">
                                     <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                                        <img class="object-cover w-full h-full rounded-full" src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=200&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjE3Nzg0fQ" alt="" loading="lazy" />
+                                        <img class="object-cover w-full h-full rounded-full" src="../public/images/logo_unl.png" alt="" loading="lazy" />
                                         <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                                     </div>
                                     <div>
-                                        <p class="font-semibold">Hans Burger</p>
+                                        <p class="font-semibold">Desarrollo de software</p>
                                         <p class="text-xs text-gray-600 dark:text-gray-400">
-                                            10x Developer
+                                            Ing.
                                         </p>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-4 py-3 text-sm">
-                                $ 863.45
+                                Tema
                             </td>
                             <td class="px-4 py-3 text-xs">
                                 <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
@@ -43,6 +47,9 @@ export default function Tutorias() {
                             </td>
                             <td class="px-4 py-3 text-sm">
                                 6/10/2020
+                                <p class="text-xs text-gray-600 dark:text-gray-400">
+                                    15:30 - 16:30
+                                </p>
                             </td>
                             <td class="px-4 py-3">
                                 <div class="flex items-center space-x-4 text-sm">
@@ -86,19 +93,19 @@ export default function Tutorias() {
                             <td class="px-4 py-3">
                                 <div class="flex items-center text-sm">
                                     <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                                        <img class="object-cover w-full h-full rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=200&amp;facepad=3&amp;fit=facearea&amp;s=707b9c33066bf8808c934c8ab394dff6" alt="" loading="lazy" />
+                                        <img class="object-cover w-full h-full rounded-full" src="" alt="" loading="lazy" />
                                         <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                                     </div>
                                     <div>
-                                        <p class="font-semibold">Jolina Angelie</p>
+                                        <p class="font-semibold">Gestion de redes</p>
                                         <p class="text-xs text-gray-600 dark:text-gray-400">
-                                            Unemployed
+                                            Ing.
                                         </p>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-4 py-3 text-sm">
-                                $ 369.95
+                                Tema
                             </td>
                             <td class="px-4 py-3 text-xs">
                                 <span class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
@@ -107,6 +114,9 @@ export default function Tutorias() {
                             </td>
                             <td class="px-4 py-3 text-sm">
                                 6/10/2020
+                                <p class="text-xs text-gray-600 dark:text-gray-400">
+                                    15:30 - 16:30
+                                </p>
                             </td>
                             <td class="px-4 py-3">
                                 <div class="flex items-center space-x-4 text-sm">
@@ -150,19 +160,19 @@ export default function Tutorias() {
                             <td class="px-4 py-3">
                                 <div class="flex items-center text-sm">
                                     <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                                        <img class="object-cover w-full h-full rounded-full" src="https://images.unsplash.com/photo-1551069613-1904dbdcda11?ixlib=rb-1.2.1&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=200&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjE3Nzg0fQ" alt="" loading="lazy" />
+                                        <img class="object-cover w-full h-full rounded-full" src="" alt="" loading="lazy" />
                                         <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                                     </div>
                                     <div>
-                                        <p class="font-semibold">Sarah Curry</p>
+                                        <p class="font-semibold">Procesos de software</p>
                                         <p class="text-xs text-gray-600 dark:text-gray-400">
-                                            Designer
+                                            Ing.
                                         </p>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-4 py-3 text-sm">
-                                $ 86.00
+                                Tema
                             </td>
                             <td class="px-4 py-3 text-xs">
                                 <span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700">
@@ -171,6 +181,9 @@ export default function Tutorias() {
                             </td>
                             <td class="px-4 py-3 text-sm">
                                 6/10/2020
+                                <p class="text-xs text-gray-600 dark:text-gray-400">
+                                    15:30 - 16:30
+                                </p>
                             </td>
                             <td class="px-4 py-3">
                                 <div class="flex items-center space-x-4 text-sm">
@@ -214,19 +227,19 @@ export default function Tutorias() {
                             <td class="px-4 py-3">
                                 <div class="flex items-center text-sm">
                                     <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                                        <img class="object-cover w-full h-full rounded-full" src="https://images.unsplash.com/photo-1551006917-3b4c078c47c9?ixlib=rb-1.2.1&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=200&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjE3Nzg0fQ" alt="" loading="lazy" />
+                                        <img class="object-cover w-full h-full rounded-full" src="" alt="" loading="lazy" />
                                         <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                                     </div>
                                     <div>
-                                        <p class="font-semibold">Rulia Joberts</p>
+                                        <p class="font-semibold">Diseño de software</p>
                                         <p class="text-xs text-gray-600 dark:text-gray-400">
-                                            Actress
+                                            Ing.
                                         </p>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-4 py-3 text-sm">
-                                $ 1276.45
+                                Tema
                             </td>
                             <td class="px-4 py-3 text-xs">
                                 <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
@@ -235,6 +248,9 @@ export default function Tutorias() {
                             </td>
                             <td class="px-4 py-3 text-sm">
                                 6/10/2020
+                                <p class="text-xs text-gray-600 dark:text-gray-400">
+                                    15:30 - 16:30
+                                </p>
                             </td>
                             <td class="px-4 py-3">
                                 <div class="flex items-center space-x-4 text-sm">
@@ -278,19 +294,19 @@ export default function Tutorias() {
                             <td class="px-4 py-3">
                                 <div class="flex items-center text-sm">
                                     <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                                        <img class="object-cover w-full h-full rounded-full" src="https://images.unsplash.com/photo-1546456073-6712f79251bb?ixlib=rb-1.2.1&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=200&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjE3Nzg0fQ" alt="" loading="lazy" />
+                                        <img class="object-cover w-full h-full rounded-full" src="" alt="" loading="lazy" />
                                         <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                                     </div>
                                     <div>
-                                        <p class="font-semibold">Wenzel Dashington</p>
+                                        <p class="font-semibold">Computacion en la nube</p>
                                         <p class="text-xs text-gray-600 dark:text-gray-400">
-                                            Actor
+                                            Ing.
                                         </p>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-4 py-3 text-sm">
-                                $ 863.45
+                                Tema
                             </td>
                             <td class="px-4 py-3 text-xs">
                                 <span class="px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700">

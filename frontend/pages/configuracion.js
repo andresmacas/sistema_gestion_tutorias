@@ -5,6 +5,7 @@ import styles from '../styles/Home.module.css';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { editarPersonaActual, obtenerPersonaActual } from './api/api';
+import Head from 'next/head';
 export default function Configuracion() {
     const router = useRouter();
     const [llamada, setLlamada] = useState(false);
@@ -94,6 +95,9 @@ export default function Configuracion() {
     return (
         <AuthRoute>
             <div className='flex h-screen' style={{ backgroundColor: "#1a1c23" }}>
+                <Head>
+                    <title>Configuracion</title>
+                </Head>
                 <SideNavBar />
                 <form className={styles.container} onSubmit={handleSubmit}>
                     <div >
