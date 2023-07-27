@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PersonaExternal, Session, Rol, ObtenerExternal } from './useSession';
+import { PersonaExternal, Session, Rol, ObtenerExternal, CerrarSession } from './useSession';
 
 const BASE_URL = 'http://localhost:8095/api/v1'; // Reemplaza esta URL con la URL base de tu API
 
@@ -56,3 +56,9 @@ export const editarPersonaActual = async (data) => {
   }
   return result;
 };
+
+// Metodo para cerrar sesión
+export const logout = async () => {
+
+    CerrarSession();
+}

@@ -31,4 +31,5 @@ export const EstaSession = () =>{
 export const CerrarSession = () =>{
     localStorage.removeItem('token');
     localStorage.removeItem('rol');
+    localStorage.removeItem('external');
 }
