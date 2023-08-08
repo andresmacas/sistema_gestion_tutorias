@@ -29,7 +29,7 @@ public class TutoriasWS {
     private Date fechaAceptada;
     
     //@NotNull(message = "El estado de la tutoría es requerido.")
-    private Boolean estado;
+    private String estado;
     
     //@NotNull(message = "El número de horas es requerido.")
     private Double horas;
@@ -46,7 +46,7 @@ public class TutoriasWS {
     @NotBlank(message = "Campo de Registro Tutorias es requerido")
     private String external_registroTutorias;
     // Lista de estudiantes asociados a la tutoría (si es necesario)
-    private List<PersonaWS> estudiantes;
+    private PersonaWS estudiante;
     private Persona persona;
     private RegistroTutoriasWS registroTutoriasWS;
 
@@ -62,6 +62,7 @@ public class TutoriasWS {
         tutoria.setHoras(horas);
         tutoria.setModalidad(modalidad);
         tutoria.setExternal_id(UUID.randomUUID().toString());
+        tutoria.setEstudiante(null);
         return tutoria;
     }
 }
