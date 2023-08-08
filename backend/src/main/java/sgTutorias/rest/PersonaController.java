@@ -82,17 +82,12 @@ public class PersonaController {
             persona.setCreateAt(new Date());
             persona.setRol(rol);
             if (personaWS.getCuenta() != null) {
-                if (personaWS.getTipo_persona().equalsIgnoreCase("cliente")) {
-                    mapa.put("evento", "Cliente no puede tener registrar una cuenta");
-                    return RespuestaLista.respuestaError(mapa, "ERROR");
-                }
                 Cuenta cuenta = personaWS.getCuenta().cargarObjeto(null);
                 // estado Cuenta
                 cuenta.setCreateAt(new Date());
                 cuenta.setPersona(persona);
                 persona.setCuenta(cuenta);
                 cuenta.setClave(Utilidades.clave(personaWS.getCuenta().getClave()));
-
             }
             personaRepository.save(persona);
             mapa.put("evento", "Se ha registrado correctamente");
