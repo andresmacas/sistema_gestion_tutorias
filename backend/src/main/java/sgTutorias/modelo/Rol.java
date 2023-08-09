@@ -18,9 +18,9 @@ import lombok.Setter;
 @Table(name = "rol")
 @Getter
 @Setter
-public class Rol implements Serializable{
+public class Rol implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(length = 75)
     private String nombre;
