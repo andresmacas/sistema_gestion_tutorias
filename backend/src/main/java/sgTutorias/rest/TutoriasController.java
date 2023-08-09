@@ -1,5 +1,6 @@
 package sgTutorias.rest;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -85,26 +86,35 @@ public class TutoriasController {
         List<Tutorias> lista = new ArrayList<>();
         List mapa = new ArrayList<>();
         tutoriasRepository.findAll().forEach((t) -> lista.add(t));
+        
         HashMap aux = new HashMap<>();
         for (Tutorias t : lista) {
+            
+            aux.put("tema", t.getTema());
+            aux.put("modalidad", t.getModalidad());
             aux.put("estado", t.getEstado());
-            aux.put("external_id", t.getExternal_id());
-            aux.put("external_registroTutorias", t.getRegistroTutorias().getExternal_id());
+            aux.put("docente", t.getRegistroTutorias().getPersona().getNombres() + " " + t.getRegistroTutorias().getPersona().getApellidos());
+            aux.put("materia", t.getRegistroTutorias().getAsignatura().getAsignatura());
+            aux.put("fechaTutoria", t.getCreateAt());
+
+            
+
+            // aux.put("horainicio", t.getFechaAceptada().getHours());
+            aux.put("horaInicio", t.getFechaAceptada());
+            aux.put("estado", t.getEstado());
             aux.put("horas", t.getHoras());
             aux.put("fecha_solicitada", t.getFechaSolicitada());
-            aux.put("modalidad", t.getModalidad());
-            aux.put("tema", t.getTema());
             aux.put("fecha_aceptada", t.getFechaAceptada());
-            aux.put("createAt", t.getCreateAt());
+            
+            aux.put("external_registroTutoria", t.getRegistroTutorias().getExternal_id());
+            aux.put("external_id_tutoria", t.getExternal_id());
             aux.put("updateAt", t.getUpdateAt());
             if (t.getEstudiante() != null) {
                 aux.put("estudiante_external_id", t.getEstudiante().getExternal_id());
                 aux.put("estudiante_nombre", t.getEstudiante().getNombres()); // O cualquier otro atributo
                 aux.put("estudiante_apellido", t.getEstudiante().getApellidos()); 
             }
-
             mapa.add(aux);
-
         }
         return RespuestaLista.respuesta(mapa, "Ok");
 
