@@ -25,9 +25,9 @@ export default function registro() {
             console.log(response);
             if (response.code != "200 OK") {
                 alert("Contraseña Incorrecta");
-                //router.reload();
+                router.reload();
             } else {
-                //router.push("/tutorias");                
+                router.push("/tutorias");                
             }
         });
         setData({
