@@ -42,6 +42,8 @@ public class Tutorias implements java.io.Serializable{
     private String estado;///////////////
     private Double horas;///
     //estudiantess
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(referencedColumnName = "id", name = "id_estudiante", nullable = false)
     private Persona estudiante;
     
     @Column(length = 36)

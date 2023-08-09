@@ -45,6 +45,7 @@ public class TutoriasWS {
 
     @NotBlank(message = "Campo de Registro Tutorias es requerido")
     private String external_registroTutorias;
+    private String external_estudiante;
     // Lista de estudiantes asociados a la tutoría (si es necesario)
     private PersonaWS estudiante;
     private Persona persona;

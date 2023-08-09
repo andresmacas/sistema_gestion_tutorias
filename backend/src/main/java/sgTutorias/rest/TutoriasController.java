@@ -48,15 +48,15 @@ public class TutoriasController {
     @PostMapping("/tutorias/guardar")
     public ResponseEntity guardar(@Valid @RequestBody TutoriasWS tutoriasWS) {
         HashMap mapa = new HashMap<>();
-        // Buscar al estudiante por su external_id en la base de datos
-        Persona usuarioActual = personaRepository.findByExternal_id(tutoriasWS.getEstudiante().getExternal_id());
+        Tutorias tutorias = tutoriasWS.cargarObjeto(null);
+        Persona p = personaRepository.findByExternal_id(tutoriasWS.getExternal_estudiante());
+        RegistroTutorias r = registroRepository.findByExternal_id(tutoriasWS.getExternal_registroTutorias());
 
-        if (usuarioActual != null) {
-            Tutorias tutorias = tutoriasWS.cargarObjeto(null);
-            RegistroTutorias r = registroRepository.findByExternal_id(tutoriasWS.getExternal_registroTutorias());
-
+        if (p != null) {
+            
+            
             if (r != null) {
-                tutorias.setEstudiante(usuarioActual);
+                tutorias.setEstudiante(p);
                 tutorias.setCreateAt(new Date());
                 tutorias.setRegistroTutorias(r);
                 tutorias.setFechaSolicitada(tutoriasWS.getFechaSolicitada());
@@ -110,7 +110,7 @@ public class TutoriasController {
 
     }
 
-    @GetMapping("/tutorias/{externalId}")
+    @GetMapping("/tutorias/obtener/{externalId}")
 public ResponseEntity obtenerTutoriaPorExternalId(@PathVariable String externalId) {
     Tutorias tutoria = tutoriasRepository.findByExternal_id(externalId);
 
@@ -141,7 +141,7 @@ public ResponseEntity obtenerTutoriaPorExternalId(@PathVariable String externalI
         return RespuestaLista.respuestaError(errorMap, "No se encontró la tutoría con el external_id proporcionado");
     }
 }
-@PutMapping("/tutorias/{externalId}")
+@PostMapping("/tutorias/editar/{externalId}")
 public ResponseEntity editarTutoriaPorExternalId(
         @PathVariable String externalId,
         @Valid @RequestBody TutoriasWS tutoriasWS) {

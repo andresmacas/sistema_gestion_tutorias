@@ -9,6 +9,7 @@ import java.util.UUID;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +18,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import sgTutorias.controladores.AsignaturaRepository;
 import sgTutorias.controladores.PersonaRepository;
 import sgTutorias.controladores.RegistroRepository;
 import sgTutorias.controladores.utiles.Utilidades;
+import sgTutorias.modelo.Asignatura;
 import sgTutorias.modelo.Cuenta;
 import sgTutorias.modelo.Persona;
 import sgTutorias.modelo.RegistroTutorias;
@@ -40,21 +44,23 @@ public class RegistroTutoriaController {
     private PersonaRepository personaRepository;
     @Autowired
     private RegistroRepository registroRepository;
+    @Autowired
+    private AsignaturaRepository asignaturaRepository;
 
     @PostMapping("/registro/tutorias/guardar")
     public ResponseEntity guardarEquipo(@Valid @RequestBody RegistroTutoriasWS registroTutoriasWS) {
         HashMap mapa = new HashMap<>();
         RegistroTutorias registroTutorias = new RegistroTutorias();
         Persona p = personaRepository.findByExternal_id(registroTutoriasWS.getExternal_persona());
+        Asignatura a = asignaturaRepository.findByExternal_id(registroTutoriasWS.getExternal_asignatura());
+        System.out.println("EXTERNAL ASIGNATURA" + registroTutoriasWS.getExternal_asignatura());
         if (p != null) {
             // registroTutoriasWS.cargarObjeto(registroTutorias);
             registroTutorias.setCreated_at(new Date());
             registroTutorias.setPersona(p);
-            registroTutorias.setAsignatura(registroTutoriasWS.getAsignatura());
+            registroTutorias.setAsignatura(a);
             registroTutorias.setPeriodo(registroTutoriasWS.getPeriodo());
             registroTutorias.setParalelo(registroTutoriasWS.getParalelo());
-            registroTutorias.setCarrera(registroTutoriasWS.getCarrera());
-            registroTutorias.setFacultad(registroTutoriasWS.getFacultad());
             registroTutorias.setFechaEmision(new Date());
             registroTutorias.setExternal_id(UUID.randomUUID().toString());
             registroRepository.save(registroTutorias);
@@ -77,18 +83,15 @@ public class RegistroTutoriaController {
         for (RegistroTutorias r : lista) {
             // constante++;
 
-            aux.put("asignatura", r.getAsignatura());
-            aux.put("carrera", r.getCarrera());
-           // aux.put("external_id", r.getExternal_id());
-            aux.put("facultad", r.getFacultad());
+            // aux.put("external_id", r.getExternal_id());
             aux.put("paralelo", r.getParalelo());
             aux.put("periodo", r.getPeriodo());
             aux.put("tutor_apellido", r.getPersona().getApellidos());
             aux.put("tutor_nombre", r.getPersona().getNombres());
             aux.put("tutor_nombre", r.getPersona().getNombres());
             aux.put("tutor_identificacion", r.getPersona().getIdentificacion());
-           // aux.put("tutorias", r.getTutorias().;
-            aux.put("external_registro",r.getExternal_id());
+            // aux.put("tutorias", r.getTutorias().;
+            aux.put("external_registro", r.getExternal_id());
             // aux.put("tutorias", r.getTutorias());
             mapa.add(aux);
         }
@@ -100,10 +103,7 @@ public class RegistroTutoriaController {
         RegistroTutorias r = registroRepository.findByExternal_id(external);
         if (r != null) {
             HashMap aux = new HashMap<>();
-            aux.put("asignatura", r.getAsignatura());
-            aux.put("carrera", r.getCarrera());
             aux.put("external_id", r.getExternal_id());
-            aux.put("facultad", r.getFacultad());
             aux.put("paralelo", r.getParalelo());
             aux.put("periodo", r.getPeriodo());
             aux.put("tutor_apellido", r.getPersona().getApellidos());
@@ -120,7 +120,8 @@ public class RegistroTutoriaController {
     }
 
     @PostMapping("/registro/tutorias/editar/{external}")
-    public ResponseEntity guardarEquipo(@Valid @PathVariable String external, @RequestBody RegistroTutoriasWS registroTutoriasWS) {
+    public ResponseEntity guardarEquipo(@Valid @PathVariable String external,
+            @RequestBody RegistroTutoriasWS registroTutoriasWS) {
         HashMap mapa = new HashMap<>();
         RegistroTutorias registroTutorias = registroRepository.findByExternal_id(external);
         Persona p = personaRepository.findByExternal_id(registroTutoriasWS.getPersona().getExternal_id());
@@ -129,13 +130,9 @@ public class RegistroTutoriaController {
 
         if (p != null) {
             // registroTutoriasWS.cargarObjeto(registroTutorias);
-            
             registroTutorias.setPersona(p);
-            registroTutorias.setAsignatura(registroTutoriasWS.getAsignatura());
             registroTutorias.setPeriodo(registroTutoriasWS.getPeriodo());
             registroTutorias.setParalelo(registroTutoriasWS.getParalelo());
-            registroTutorias.setCarrera(registroTutoriasWS.getCarrera());
-            registroTutorias.setFacultad(registroTutoriasWS.getFacultad());
             registroTutorias.setFechaEmision(new Date());
             registroTutorias.setExternal_id(UUID.randomUUID().toString());
             registroRepository.save(registroTutorias);
