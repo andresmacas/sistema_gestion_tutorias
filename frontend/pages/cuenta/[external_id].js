@@ -1,14 +1,16 @@
-import SideNavBar from '@/components/SideNavBar';
-import React from 'react';
-import AuthRoute from './authRoute';
-import styles from '../styles/Home.module.css';
-import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { editarPersonaActual, obtenerPersonaActual, obtenerRol } from './api/api';
+import { useEffect, useState } from 'react';
+import AuthRoute from '../authRoute';
 import Head from 'next/head';
-export default function Configuracion() {
+import styles from '../../styles/Home.module.css';
+import SideNavBar from '@/components/SideNavBar';
+import { editarPersona, obtenerPersonaExternal } from '../api/api';
+
+export default function Cuenta() {
     const router = useRouter();
     const [llamada, setLlamada] = useState(false);
+    const { external_id } = router.query;
+    const opcionesRoles = ['estudiante', 'docente', 'admin', 'gestor'];
     const [data, setData] = useState({
         apellidos: '',
         nombres: '',
@@ -21,6 +23,42 @@ export default function Configuracion() {
             clave: '',
         }
     });
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(data);
+        editarPersona(external_id, data).then((response) => {
+            console.log(response);
+            if (response.code != "200 OK") {
+                alert("ERROR AL ACTUALIZAR DATOS");
+                router.reload();
+            } else {
+                router.push('/admin');
+            }
+        });
+        setData({
+            apellidos: '',
+            nombres: '',
+            identificacion: '',
+            direccion: '',
+            telefono: '',
+            tipo_persona: '',
+            cuenta: {
+                correo: '',
+                clave: '',
+            }
+        });
+    };
+
+    const handleTipoPersonaChange = (e) => {
+        const newTipoPersona = e.target.value;
+        setData((prevData) => ({
+            ...prevData,
+            tipo_persona: newTipoPersona,
+        }));
+    };
+    
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -39,12 +77,11 @@ export default function Configuracion() {
             }));
         }
     }
-
-    if (!llamada) {
-        obtenerPersonaActual().then((data) => {
-            console.log("ROL");
-            console.log(obtenerRol());
-            if (data) {
+    useEffect(() => {
+        console.log(external_id);
+        if (external_id) {
+            obtenerPersonaExternal({ external_id }).then((data) => {
+                console.log(data);
                 const aux = {
                     apellidos: data.data.Apellidos,
                     identificacion: data.data.Identificacion,
@@ -58,40 +95,12 @@ export default function Configuracion() {
                     }
                 }
                 setData(aux);
-                console.log(data);
-                setLlamada(true);
-            }
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
+                console.log(aux);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log(data);
-        editarPersonaActual(data).then((response) => {
-            console.log(response);
-            if (response.code != "200 OK") {
-                alert("Contraseña Incorrecta");
-                router.reload();
-            } else {
-                router.reload();
-            }
-        });
-        setData({
-            apellidos: '',
-            nombres: '',
-            identificacion: '',
-            direccion: '',
-            telefono: '',
-            tipo_persona: "",
-            cuenta: {
-                correo: '',
-                clave: '',
-            }
-        });
-
-    };
+            });
+            console.log(`Cargando perfil con external_id: ${external_id}`);
+        }
+    }, [external_id]);
 
     return (
         <AuthRoute>
@@ -156,6 +165,20 @@ export default function Configuracion() {
                                     </div>
                                 </div>
                             </label>
+                            <label className="block text-sm">
+                                <span className="text-gray-700 dark:text-gray-400">Rol</span>
+                                <div className="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400 py-1">
+                                    <select className="w-full text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray " value={data.tipo_persona} onChange={handleTipoPersonaChange}>
+                                        {opcionesRoles.map((rol) => (
+                                            <option key={rol} value={rol}>
+                                                {rol.charAt(0).toUpperCase() + rol.slice(1)} {/* Capitalizar la primera letra */}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </label>
+
+
 
                             <label className="block text-sm">
                                 <span className="text-gray-700 dark:text-gray-400">Telefono</span>
@@ -193,7 +216,7 @@ export default function Configuracion() {
                                     <input
                                         className="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
                                         placeholder="******"
-                                        type='password' name="clave" onChange={handleInputChange}
+                                        type='password' name="clave" value={data.cuenta.clave} onChange={handleInputChange}
                                     />
                                     <div className="absolute inset-y-0 flex items-center ml-3 pointer-events-none">
                                         <div className="absolute" style={{ opacity: "0.7", backgroundSize: "cover", width: "20px", height: "20px", backgroundImage: `url("/images/icon_show_password.png")` }} />
@@ -213,6 +236,5 @@ export default function Configuracion() {
                 </form>
             </div>
         </AuthRoute>
-
-    )
+    );
 }

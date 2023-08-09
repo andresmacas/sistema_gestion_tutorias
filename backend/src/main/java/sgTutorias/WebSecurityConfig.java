@@ -8,17 +8,18 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import sgTutorias.security.JWTMiddleFilter;
+
 @Configuration
 public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         System.out.println("HOLA:::::::::::::::::::");
-            http.csrf().disable().cors().and()
-                            .addFilterAfter(new JWTMiddleFilter(),
-                                            UsernamePasswordAuthenticationFilter.class)
-                            .authorizeRequests()
-                            .antMatchers(HttpMethod.POST, "/api/v1/inicio_sesion").permitAll()
-                            .antMatchers(HttpMethod.POST, "/api/v1/personas/guardar").permitAll();
-            return http.build();
+        http.csrf().disable().cors().and()
+                .addFilterAfter(new JWTMiddleFilter(),
+                        UsernamePasswordAuthenticationFilter.class)
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/api/v1/inicio_sesion").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/v1/personas/guardar").permitAll();
+        return http.build();
     }
 }

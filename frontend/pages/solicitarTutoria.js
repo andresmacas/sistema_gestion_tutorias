@@ -2,10 +2,14 @@ import SideNavBar from '@/components/SideNavBar';
 import React from 'react';
 import AuthRoute from './authRoute';
 import styles from '../styles/Home.module.css';
+import Head from 'next/head';
 
 export default function solicitarTutoria() {
     return (
         <AuthRoute>
+            <Head>
+                <title>Solicitar Tutoria</title>
+            </Head>
             <div className='flex h-screen' style={{ backgroundColor: "#1a1c23" }}>
                 <SideNavBar />
                 <div className={styles.container}>

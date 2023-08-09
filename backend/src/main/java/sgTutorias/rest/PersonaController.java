@@ -61,7 +61,8 @@ public class PersonaController {
             aux.put("identificacion", p.getIdentificacion());
             aux.put("direccion", p.getDireccion());
             aux.put("telefono", p.getTelefono());
-            aux.put("external", p.getExternal_id());
+            aux.put("external_persona", p.getExternal_id());
+            aux.put("rol", p.getRol().getNombre());
             mapa.add(aux);
         }
         return RespuestaLista.respuestaLista(mapa);
@@ -119,7 +120,6 @@ public class PersonaController {
             aux.put("Apellidos", p.getApellidos());
             aux.put("Direccion", p.getDireccion());
             aux.put("Identificacion", p.getIdentificacion());
-            aux.put("Direccion", p.getDireccion());
             aux.put("Correo", p.getCuenta().getCorreo());
             aux.put("Telefono", p.getTelefono());
             aux.put("Rol", p.getRol().getNombre());
@@ -160,7 +160,7 @@ public class PersonaController {
     }
 
     /**
-     * Método para editar la información de una persona (Requiere su contraseña)
+     * Método para editar la información de una persona en especifico
      * 
      * @param externalId
      */
@@ -169,7 +169,7 @@ public class PersonaController {
         HashMap mapa = new HashMap<>();
         Persona persona = personaRepository.findByExternal_id(external);
         Rol rol = rolRepository.findByNombreRol(personaWS.getTipo_persona());
-        if (personaWS.getCuenta() != null && (Utilidades.verificar(personaWS.getCuenta().getClave(), persona.getCuenta().getClave()))) {
+        if (personaWS.getCuenta() != null  && (Utilidades.verificar(personaWS.getCuenta().getClave(), persona.getCuenta().getClave()))) {
             personaWS.cargarObjeto(persona);
             Cuenta cuenta = cuentaRepository.findByCorreo(personaWS.getCuenta().getCorreo());
             // estado Cuenta
@@ -184,9 +184,8 @@ public class PersonaController {
             aux.put("persona_external", persona.getExternal_id());
             aux.put("evento", "Se ha Modificado correctamente");
             return RespuestaLista.respuesta(aux, "OK");
-
         } else {
-            mapa.put("evento", "Objeto no encontrado o contraseña incorrecta");
+            mapa.put("evento", "Objeto no encontrado");
             return RespuestaLista.respuestaError(mapa, "No se encontro la Persona");
         }
     }

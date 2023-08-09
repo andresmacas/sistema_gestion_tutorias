@@ -2,8 +2,56 @@ import Head from "next/head";
 import AuthRoute from "./authRoute";
 import SideNavBar from "@/components/SideNavBar";
 import styles from '../styles/Home.module.css';
-
+import { useState } from 'react';
+import Link from 'next/link';
+import Image from "next/image";
 export default function asignaturas() {
+    const [llamada, setLlamada] = useState(false);
+
+    const [data, setData] = useState([{
+        asignatura: 'sistemaOperativos',
+        periodo: '2023A',
+        paralelo: 'A',
+        carrera: 'Ingeniería en Sistemas',
+        facultad: 'Facultad de la Industria y los Recursos Naturales No Renovables',
+        ciclo: "6",
+        fechaEmision: '2023-07-23',
+        external_persona: '081fe046-e4b6-4b7c-b5fc-ff7cc6cb1e34'
+    },
+    {
+        asignatura: 'Redes',
+        periodo: '2023A',
+        paralelo: 'A',
+        carrera: 'Ingeniería en Sistemas',
+        facultad: 'Ingeniería y',
+        ciclo: "6",
+        fechaEmision: '2023-07-23',
+        external_persona: '081fe046-e4b6-4b7c-b5fc-ff7cc6cb1e34'
+    }]);
+
+    /*    if (!llamada) {
+            //        obtenerPersonaActual().then((data) => {
+    
+            //    if (data) {
+            const aux = {
+                asignatura: data.asignatura,
+                periodo: data.periodo,
+                paralelo: data.paralelo,
+                carrera: data.carrera,
+                facultad: data.facultad,
+                fechaEmision: data.fechaEmision,
+                external_persona: data.external_persona
+            };
+    
+            setData(aux);
+            console.log(data);
+            setLlamada(true);
+            //  }
+            //      }).catch((error) => {
+            //        console.log(error);
+            //  });
+        }
+    */
     return (
         <AuthRoute>
             <div className='flex h-screen' style={{ backgroundColor: "#1a1c23" }}>
@@ -18,80 +66,51 @@ export default function asignaturas() {
                         <thead>
                             <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                                 <th class="px-4 py-3">Materia</th>
-                                <th class="px-4 py-3">Tema</th>
-                                <th class="px-4 py-3">Estado</th>
-                                <th class="px-4 py-3">Fecha</th>
-                                <th class="px-4 py-3">Accion</th>
+                                <th class="text-center px-4 py-3">Ciclo</th>
+                                <th class="text-center px-4 py-3">Carrera</th>
+                                <th class="text-center px-4 py-3">Accion</th>
 
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                            <tr class="text-gray-700 dark:text-gray-400">
-                                <td class="px-4 py-3">
-                                    <div class="flex items-center text-sm">
-                                        <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                                            <img class="object-cover w-full h-full rounded-full" src="../public/images/logo_unl.png" alt="" loading="lazy" />
-                                            <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                            {data.map((item, index) => (
+                                <tr key={index} className="text-gray-700 dark:text-gray-400">
+                                    <td className="px-4 py-3">
+                                        <div className="flex items-center text-sm">
+                                            <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                                                <Image
+                                                    className="object-cover w-full h-full rounded-full"
+                                                    src="/images/logo_unl.png"
+                                                    alt=""
+                                                    width={32}  // Ancho de la imagen en píxeles
+                                                    height={32} // Altura de la imagen en píxeles
+                                                    loading="lazy"
+                                                />
+                                                <div className="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                                            </div>
+                                            <div>
+                                                <p className="font-semibold">{item.asignatura}</p>
+                                                <p className="text-xs text-gray-600 dark:text-gray-400">{item.facultad}</p>
+                                            </div>
                                         </div>
+                                    </td>
+                                    <td className="px-4 py-3 text-sm text-center">{item.ciclo}</td>
+                                    <td className="px-4 py-3 text-xs text-center">
+                                        <span className={`px-2 py-1 font-semibold leading-tight`}>
+                                            {item.carrera}
+                                        </span>
+                                    </td>
+                                    <td className="px-4 py-3 text-sm text-center">
                                         <div>
-                                            <p class="font-semibold">Desarrollo de software</p>
-                                            <p class="text-xs text-gray-600 dark:text-gray-400">
-                                                Ing.
-                                            </p>
+                                            <Link href="/solicitarTutoria" passHref>
+                                                <button className="items-center justify-between px-4 py-2 text-sm text-white transition-colors duration-1000 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 w-fit"
+                                                >Solicitar Tutoria</button>
+                                            </Link>
                                         </div>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-3 text-sm">
-                                    Tema
-                                </td>
-                                <td class="px-4 py-3 text-xs">
-                                    <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                                        Aprobada
-                                    </span>
-                                </td>
-                                <td class="px-4 py-3 text-sm">
-                                    6/10/2020
-                                    <p class="text-xs text-gray-600 dark:text-gray-400">
-                                        15:30 - 16:30
-                                    </p>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <div class="flex items-center space-x-4 text-sm">
-                                        <button
-                                            class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                                            aria-label="Edit"
-                                        >
-                                            <svg
-                                                class="w-5 h-5"
-                                                aria-hidden="true"
-                                                fill="currentColor"
-                                                viewBox="0 0 20 20"
-                                            >
-                                                <path
-                                                    d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
-                                                ></path>
-                                            </svg>
-                                        </button>
-                                        <button
-                                            class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                                            aria-label="Delete"
-                                        >
-                                            <svg
-                                                class="w-5 h-5"
-                                                aria-hidden="true"
-                                                fill="currentColor"
-                                                viewBox="0 0 20 20"
-                                            >
-                                                <path
-                                                    fill-rule="evenodd"
-                                                    d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                                    clip-rule="evenodd"
-                                                ></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>

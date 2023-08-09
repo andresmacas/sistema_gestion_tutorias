@@ -1,6 +1,7 @@
 package sgTutorias.modelo;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,17 +28,24 @@ import lombok.Setter;
 public class Tutorias implements java.io.Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer id;//
     @Column(length = 100)
-    private String tema;
+    private String tema;//
     @Column(length = 100)
-    private String modalidad;
+    private String modalidad;//
     @Temporal(TemporalType.DATE)
-    private Date fechaSolicitada;
+    private Date fechaSolicitada;//
+    //fecha inicio
     @Temporal(TemporalType.DATE)
-    private Date fechaAceptada;    
-    private Boolean estado;
-    private Double horas;
+    private Date fechaAceptada;  //
+    @Column(length = 100)
+    private String estado;///////////////
+    private Double horas;///
+    //estudiantess
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(referencedColumnName = "id", name = "id_estudiante", nullable = false)
+    private Persona estudiante;
+    
     @Column(length = 36)
     private String external_id;
     @CreatedDate
