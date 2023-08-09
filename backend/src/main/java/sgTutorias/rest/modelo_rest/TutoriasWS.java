@@ -23,7 +23,6 @@ public class TutoriasWS {
     @Size(max = 100, message = "El tema de la tutoría debe tener como máximo {max} caracteres.")
     private String tema;
     
-    @NotNull(message = "La fecha solicitada es requerida.")
     private Date fechaSolicitada;
     
     private Date fechaAceptada;
@@ -43,7 +42,6 @@ public class TutoriasWS {
     @Size(max = 50)
     private String modalidad;
 
-    @NotBlank(message = "Campo de Registro Tutorias es requerido")
     private String external_registroTutorias;
     private String external_estudiante;
     // Lista de estudiantes asociados a la tutoría (si es necesario)
