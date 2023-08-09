@@ -84,10 +84,16 @@ public class RegistroTutoriaController {
             // constante++;
 
             // aux.put("external_id", r.getExternal_id());
-            aux.put("paralelo", r.getParalelo());
+
+            aux.put("asignatura", r.getAsignatura().getAsignatura());
             aux.put("periodo", r.getPeriodo());
+            aux.put("paralelo", r.getParalelo());
+            aux.put("carrera", r.getAsignatura().getCarrera());
+            aux.put("facultad", r.getAsignatura().getFacultad());
+            aux.put("ciclo", r.getAsignatura().getCiclo());
+            aux.put("fechaEmision", r.getFechaEmision());
+            aux.put("external_persona", r.getPersona().getExternal_id());
             aux.put("tutor_apellido", r.getPersona().getApellidos());
-            aux.put("tutor_nombre", r.getPersona().getNombres());
             aux.put("tutor_nombre", r.getPersona().getNombres());
             aux.put("tutor_identificacion", r.getPersona().getIdentificacion());
             // aux.put("tutorias", r.getTutorias().;
