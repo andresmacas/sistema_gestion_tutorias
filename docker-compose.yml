@@ -1,13 +1,15 @@
-version: '3'
+version: '3.5'
 services:
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - 8080:8080
     depends_on:
       - database
+    links:
+      - database:app_db
 
   frontend:
     build:
@@ -19,7 +21,7 @@ services:
       - backend
 
   database:
-    image: mariadb
+    image: "mariadb:10.5.8"
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -27,4 +29,4 @@ services:
       MYSQL_USER: root
       MYSQL_PASSWORD: root
     ports:
-      - "3307:3306"
+      - "3306:3306"

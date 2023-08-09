@@ -10,7 +10,7 @@ export const ObtenerSession = (token) => {
 export const PersonaExternal = (external) => {
     localStorage.setItem('external', external);    
 };
-export const ObtenerExternal = (external) => {
+export const ObtenerExternal = () => {
     return localStorage.getItem('external');    
 };
 

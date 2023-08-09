@@ -2,56 +2,35 @@ import Head from "next/head";
 import AuthRoute from "./authRoute";
 import SideNavBar from "@/components/SideNavBar";
 import styles from '../styles/Home.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from "next/image";
+import { listarTutorias, obtenerExternal } from "./api/api";
 export default function asignaturas() {
     const [llamada, setLlamada] = useState(false);
+    const [external_id, setExternal_id] = useState(null);
 
-    const [data, setData] = useState([{
-        asignatura: 'sistemaOperativos',
-        periodo: '2023A',
-        paralelo: 'A',
-        carrera: 'Ingeniería en Sistemas',
-        facultad: 'Facultad de la Industria y los Recursos Naturales No Renovables',
-        ciclo: "6",
-        fechaEmision: '2023-07-23',
-        external_persona: '081fe046-e4b6-4b7c-b5fc-ff7cc6cb1e34'
-    },
-    {
-        asignatura: 'Redes',
-        periodo: '2023A',
-        paralelo: 'A',
-        carrera: 'Ingeniería en Sistemas',
-        facultad: 'Ingeniería y',
-        ciclo: "6",
-        fechaEmision: '2023-07-23',
-        external_persona: '081fe046-e4b6-4b7c-b5fc-ff7cc6cb1e34'
-    }]);
-
-    /*    if (!llamada) {
-            //        obtenerPersonaActual().then((data) => {
-    
-            //    if (data) {
-            const aux = {
-                asignatura: data.asignatura,
-                periodo: data.periodo,
-                paralelo: data.paralelo,
-                carrera: data.carrera,
-                facultad: data.facultad,
-                fechaEmision: data.fechaEmision,
-                external_persona: data.external_persona
-            };
-    
-            setData(aux);
+    useEffect(() => {
+        obtenerExternal().then((data) => {
             console.log(data);
-            setLlamada(true);
-            //  }
-            //      }).catch((error) => {
-            //        console.log(error);
-            //  });
-        }
-    */
+            setExternal_id(data.external_id);
+        })
+
+        listarTutorias().then((data) => {
+            console.log(data);
+            setData(data.data);
+        })
+    }, [external_id]);
+    const [data, setData] = useState([{
+        asignatura: '',
+        periodo: '',
+        paralelo: '',
+        carrera: '',
+        facultad: '',
+        ciclo: "",
+        fechaEmision: '',
+        external_persona: ''
+    }]);
     return (
         <AuthRoute>
             <div className='flex h-screen' style={{ backgroundColor: "#1a1c23" }}>
@@ -102,7 +81,7 @@ export default function asignaturas() {
                                     </td>
                                     <td className="px-4 py-3 text-sm text-center">
                                         <div>
-                                            <Link href="/solicitarTutoria" passHref>
+                                            <Link href={`/tutorias/solicitar/${item.external_registro}`}>
                                                 <button className="items-center justify-between px-4 py-2 text-sm text-white transition-colors duration-1000 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 w-fit"
                                                 >Solicitar Tutoria</button>
                                             </Link>

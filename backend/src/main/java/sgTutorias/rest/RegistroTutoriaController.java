@@ -77,13 +77,10 @@ public class RegistroTutoriaController {
         List<RegistroTutorias> lista = new ArrayList<>();
         List mapa = new ArrayList<>();
         registroRepository.findAll().forEach((r) -> lista.add(r));
-        // Integer constante = 0;
-        HashMap aux = new HashMap<>();
+        Integer constante = 0;
         for (RegistroTutorias r : lista) {
-            // constante++;
-
-            // aux.put("external_id", r.getExternal_id());
-
+            constante++;
+            HashMap aux = new HashMap<>();
             aux.put("asignatura", r.getAsignatura().getAsignatura());
             aux.put("periodo", r.getPeriodo());
             aux.put("paralelo", r.getParalelo());
@@ -91,7 +88,7 @@ public class RegistroTutoriaController {
             aux.put("facultad", r.getAsignatura().getFacultad());
             aux.put("ciclo", r.getAsignatura().getCiclo());
             aux.put("fechaEmision", r.getFechaEmision());
-            aux.put("external_persona", r.getPersona().getExternal_id());
+            aux.put("external_registroTutorias", r.getPersona().getExternal_id());
             aux.put("tutor_apellido", r.getPersona().getApellidos());
             aux.put("tutor_nombre", r.getPersona().getNombres());
             aux.put("tutor_identificacion", r.getPersona().getIdentificacion());
@@ -108,9 +105,14 @@ public class RegistroTutoriaController {
         RegistroTutorias r = registroRepository.findByExternal_id(external);
         if (r != null) {
             HashMap aux = new HashMap<>();
-            aux.put("external_id", r.getExternal_id());
-            aux.put("paralelo", r.getParalelo());
+            aux.put("asignatura", r.getAsignatura().getAsignatura());
             aux.put("periodo", r.getPeriodo());
+            aux.put("paralelo", r.getParalelo());
+            aux.put("carrera", r.getAsignatura().getCarrera());
+            aux.put("facultad", r.getAsignatura().getFacultad());
+            aux.put("ciclo", r.getAsignatura().getCiclo());
+            aux.put("fechaEmision", r.getFechaEmision());
+            aux.put("external_persona", r.getPersona().getExternal_id());
             aux.put("tutor_apellido", r.getPersona().getApellidos());
             aux.put("tutor_nombre", r.getPersona().getNombres());
             aux.put("tutor_identificacion", r.getPersona().getIdentificacion());

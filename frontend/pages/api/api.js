@@ -41,7 +41,8 @@ export const obtenerPersonaActual = async () => {
 }
 
 export const obtenerExternal = async () => {
-  return  ObtenerExternal();
+  console.log("EXTERNAL ID ", ObtenerExternal());
+  return ObtenerExternal();
 }
 
 
@@ -49,7 +50,7 @@ export const obtenerExternal = async () => {
 // Metodo para obtener el objeto persona de la sesion actual
 export const obtenerPersonaExternal = async (data) => {
   const external_id = data.external_id;
-  const response = await fetch(`${BASE_URL}/personas/obtener/${external_id}`,{
+  const response = await fetch(`${BASE_URL}/personas/obtener/${external_id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -105,7 +106,7 @@ export const listarPersonas = async () => {
 // Metodo para cerrar sesión
 export const logout = async () => {
 
-    CerrarSession();
+  CerrarSession();
 }
 
 // Metodo para cerrar sesión
@@ -113,7 +114,7 @@ export const obtenerRol = async () => {
   return ObtenerRol();
 }
 
-export const cargarAsignaturas = async() =>{
+export const cargarAsignaturas = async () => {
   const response = await fetch(`${BASE_URL}/asignaturas`, {
     method: 'GET',
     headers: {
@@ -124,8 +125,46 @@ export const cargarAsignaturas = async() =>{
   return result;
 }
 
-export const crearRegistroTutoria = async(data) =>{
+export const crearRegistroTutoria = async (data) => {
   const response = await fetch(`${BASE_URL}/registro/tutorias/guardar`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  const result = await response.json();
+  return result;
+}
+
+export const listarTutorias = async () => {
+  const response = await fetch(`${BASE_URL}/registro/tutorias`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const result = await response.json();
+  return result;
+}
+
+export const obtenerRegistroTutoria = async (external_id) => {
+  console.log("EXTERNAL ID ", external_id);
+  const response = await fetch(`${BASE_URL}/registro/tutorias/${external_id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const result = await response.json();
+  return result;
+}
+
+export const guardarTutoria = async (data) => {
+  const external_id = ObtenerExternal();
+  data.external_estudiante = external_id;
+  console.log("DATA ", data);
+  const response = await fetch(`${BASE_URL}/tutorias/guardar`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

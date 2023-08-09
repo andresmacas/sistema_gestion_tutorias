@@ -107,6 +107,7 @@ public class TutoriasController {
             
             aux.put("external_registroTutoria", t.getRegistroTutorias().getExternal_id());
             aux.put("external_id_tutoria", t.getExternal_id());
+            aux.put("external_docente", t.getRegistroTutorias().getPersona().getExternal_id());
             aux.put("updateAt", t.getUpdateAt());
             if (t.getEstudiante() != null) {
                 aux.put("estudiante_external_id", t.getEstudiante().getExternal_id());
