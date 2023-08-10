@@ -28,13 +28,14 @@ export default function solicitar() {
             [name]: value
         });
         ;
-
         event.preventDefault();
-        // Aquí podrías realizar alguna acción con los datos ingresados
         console.log("DAT", tutoriaData);
     };
     const handleSubmit = (event) => {
         event.preventDefault();
+        console.log("fecha", tutoriaData.fechaSolicitada);
+        tutoriaData.fechaSolicitada =new Date(tutoriaData.fechaSolicitada).toISOString();
+        console.log("fecha cambiada", tutoriaData.fechaSolicitada);
         guardarTutoria(tutoriaData).then((response) => {
             console.log(response);
             if (response.code != "200 OK") {
@@ -44,7 +45,6 @@ export default function solicitar() {
                 router.push("/tutorias");
             }
         })
-        // Aquí podrías realizar alguna acción con los datos ingresados
         console.log(tutoriaData);
     };
 
@@ -56,21 +56,11 @@ export default function solicitar() {
 
             obtenerRegistroTutoria(external_tutoria).then((data) => {
                 console.log(data);
-                /*const aux = {
-                    external_estudiante: tutoriaData.external_estudiante,
-                    external_registroTutorias: tutoriaData.external_tutoria,
-                    fechaSolicitada: data.data.fechaSolicitada,
-                    horas: '',
-                    modalidad: '',
-                    tema: '',
-                    fechaAceptada: '',
-                    estado: 'Solicitada'
-                }*/
                 setTutoriaData(
                     {
                         external_estudiante: external_estudiante,
                         external_registroTutorias: external_tutoria,
-                        fechaSolicitada: '2002-12-12',
+                        fechaSolicitada: '',
                         horas: '',
                         modalidad: '',
                         tema: '',
@@ -78,7 +68,6 @@ export default function solicitar() {
                         estado: 'Solicitada'
                     }
                 )
-                //setTutoriaData(data.data);
             })
         }
     }, [external_tutoria, external_estudiante]);
@@ -164,6 +153,32 @@ export default function solicitar() {
 
                             </div>
                         </label>
+                        <label className="block text-sm">
+                            <span className="text-gray-700 dark:text-gray-400">Fecha y Hora de tutoría</span>
+                            <div className="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400 py-1">
+                                <input
+                                    className="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
+                                    type="datetime-local" // Cambiado a "datetime-local"
+                                    name="fechaSolicitada" // Cambiado el nombre
+                                    value={tutoriaData.fechaSolicitada} // Cambiado el valor
+                                    onChange={handleInputChange}
+                                />
+                                <div className="absolute inset-y-0 flex items-center ml-3 pointer-events-none">
+                                    <div
+                                        className="absolute"
+                                        style={{
+                                            opacity: "0.7",
+                                            backgroundSize: "cover",
+                                            width: "20px",
+                                            height: "20px",
+                                            backgroundImage: `url("/images/icon_credentials_user.png")`
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        </label>
+
+
                         <button
                             className="mt-6 h-fit flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple w-fit"
                             type="submit"

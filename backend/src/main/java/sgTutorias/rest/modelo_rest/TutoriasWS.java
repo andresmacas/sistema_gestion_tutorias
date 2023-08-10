@@ -19,7 +19,6 @@ public class TutoriasWS {
 
     private Integer id;
     
-    @NotBlank(message = "El tema de la tutoría es requerido.")
     @Size(max = 100, message = "El tema de la tutoría debe tener como máximo {max} caracteres.")
     private String tema;
     
@@ -39,7 +38,6 @@ public class TutoriasWS {
     //@NotNull(message = "El registro de tutoría es requerido.")
     //private RegistroTutoriasWS registroTutoria;
     
-    @NotBlank(message = "La modalidad de la tutoría es requerida.")
     @Size(max = 50)
     private String modalidad;
 

@@ -57,13 +57,19 @@ function SideNavBar() {
                         <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 overflow-hidden hidden'}`}>Perfil</span>
                     </Link>
 
-                    {role === 'admin' ? (
+                    {role === 'admin' && (
                         <Link href="/admin" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-zinc-900 rounded-md'>
                             <div className={styles.icon} style={{ backgroundImage: `url("/images/icon_admin.png")` }} />
                             <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 overflow-hidden hidden'}`}>Admin</span>
                         </Link>
-                    ) : (
-                        <div></div>
+                    )}
+
+
+                    {role === 'docente' && (
+                        <Link href="/reportes" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-zinc-900 rounded-md'>
+                            <div className={styles.icon} style={{ backgroundImage: `url("/images/icon_admin.png")` }} />
+                            <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 overflow-hidden hidden'}`}>Reportes</span>
+                        </Link>
                     )}
 
                     <Link onClick={handleLogout} href="/" passHref className='mt-32 group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-zinc-900 rounded-md'>

@@ -53,8 +53,7 @@ public class TutoriasController {
         RegistroTutorias r = registroRepository.findByExternal_id(tutoriasWS.getExternal_registroTutorias());
 
         if (p != null) {
-            
-            
+
             if (r != null) {
                 tutorias.setEstudiante(p);
                 tutorias.setCreateAt(new Date());
@@ -85,18 +84,16 @@ public class TutoriasController {
         List<Tutorias> lista = new ArrayList<>();
         List mapa = new ArrayList<>();
         tutoriasRepository.findAll().forEach((t) -> lista.add(t));
-        
-        HashMap aux = new HashMap<>();
+
         for (Tutorias t : lista) {
-            
+            HashMap aux = new HashMap<>();
             aux.put("tema", t.getTema());
             aux.put("modalidad", t.getModalidad());
             aux.put("estado", t.getEstado());
-            aux.put("docente", t.getRegistroTutorias().getPersona().getNombres() + " " + t.getRegistroTutorias().getPersona().getApellidos());
+            aux.put("docente", t.getRegistroTutorias().getPersona().getNombres() + " "
+                    + t.getRegistroTutorias().getPersona().getApellidos());
             aux.put("materia", t.getRegistroTutorias().getAsignatura().getAsignatura());
             aux.put("fechaTutoria", t.getCreateAt());
-
-            
 
             // aux.put("horainicio", t.getFechaAceptada().getHours());
             aux.put("horaInicio", t.getFechaAceptada());
@@ -104,7 +101,7 @@ public class TutoriasController {
             aux.put("horas", t.getHoras());
             aux.put("fecha_solicitada", t.getFechaSolicitada());
             aux.put("fecha_aceptada", t.getFechaAceptada());
-            
+
             aux.put("external_registroTutoria", t.getRegistroTutorias().getExternal_id());
             aux.put("external_id_tutoria", t.getExternal_id());
             aux.put("external_docente", t.getRegistroTutorias().getPersona().getExternal_id());
@@ -112,7 +109,7 @@ public class TutoriasController {
             if (t.getEstudiante() != null) {
                 aux.put("estudiante_external_id", t.getEstudiante().getExternal_id());
                 aux.put("estudiante_nombre", t.getEstudiante().getNombres()); // O cualquier otro atributo
-                aux.put("estudiante_apellido", t.getEstudiante().getApellidos()); 
+                aux.put("estudiante_apellido", t.getEstudiante().getApellidos());
             }
             mapa.add(aux);
         }
@@ -121,56 +118,54 @@ public class TutoriasController {
     }
 
     @GetMapping("/tutorias/obtener/{externalId}")
-public ResponseEntity obtenerTutoriaPorExternalId(@PathVariable String externalId) {
-    Tutorias tutoria = tutoriasRepository.findByExternal_id(externalId);
+    public ResponseEntity obtenerTutoriaPorExternalId(@PathVariable String externalId) {
+        Tutorias tutoria = tutoriasRepository.findByExternal_id(externalId);
 
-    if (tutoria != null) {
-        HashMap<String, Object> tutoriaMap = new HashMap<>();
-        
-        tutoriaMap.put("estado", tutoria.getEstado());
-        tutoriaMap.put("external_id", tutoria.getExternal_id());
-        tutoriaMap.put("external_registroTutorias", tutoria.getRegistroTutorias().getExternal_id());
-        tutoriaMap.put("horas", tutoria.getHoras());
-        tutoriaMap.put("fecha_solicitada", tutoria.getFechaSolicitada());
-        tutoriaMap.put("modalidad", tutoria.getModalidad());
-        tutoriaMap.put("tema", tutoria.getTema());
-        tutoriaMap.put("fecha_aceptada", tutoria.getFechaAceptada());
-        tutoriaMap.put("createAt", tutoria.getCreateAt());
-        tutoriaMap.put("updateAt", tutoria.getUpdateAt());
-        
-        if (tutoria.getEstudiante() != null) {
-            tutoriaMap.put("estudiante_external_id", tutoria.getEstudiante().getExternal_id());
-            tutoriaMap.put("estudiante_nombre", tutoria.getEstudiante().getNombres()); // O cualquier otro atributo
-            tutoriaMap.put("estudiante_apellido", tutoria.getEstudiante().getApellidos()); // O cualquier otro atributo
+        if (tutoria != null) {
+            HashMap<String, Object> tutoriaMap = new HashMap<>();
+
+            tutoriaMap.put("estado", tutoria.getEstado());
+            tutoriaMap.put("external_id", tutoria.getExternal_id());
+            tutoriaMap.put("external_registroTutorias", tutoria.getRegistroTutorias().getExternal_id());
+            tutoriaMap.put("horas", tutoria.getHoras());
+            tutoriaMap.put("fecha_solicitada", tutoria.getFechaSolicitada());
+            tutoriaMap.put("modalidad", tutoria.getModalidad());
+            tutoriaMap.put("tema", tutoria.getTema());
+            tutoriaMap.put("fecha_aceptada", tutoria.getFechaAceptada());
+            tutoriaMap.put("createAt", tutoria.getCreateAt());
+            tutoriaMap.put("updateAt", tutoria.getUpdateAt());
+
+            if (tutoria.getEstudiante() != null) {
+                tutoriaMap.put("estudiante_external_id", tutoria.getEstudiante().getExternal_id());
+                tutoriaMap.put("estudiante_nombre", tutoria.getEstudiante().getNombres()); // O cualquier otro atributo
+                tutoriaMap.put("estudiante_apellido", tutoria.getEstudiante().getApellidos()); // O cualquier otro
+                                                                                               // atributo
+            }
+
+            return RespuestaLista.respuesta(tutoriaMap, "Ok");
+        } else {
+            HashMap<String, String> errorMap = new HashMap<>();
+            errorMap.put("evento", "Tutoría no encontrada");
+            return RespuestaLista.respuestaError(errorMap,
+                    "No se encontró la tutoría con el external_id proporcionado");
         }
-        
-        return RespuestaLista.respuesta(tutoriaMap, "Ok");
-    } else {
-        HashMap<String, String> errorMap = new HashMap<>();
-        errorMap.put("evento", "Tutoría no encontrada");
-        return RespuestaLista.respuestaError(errorMap, "No se encontró la tutoría con el external_id proporcionado");
     }
-}
-@PostMapping("/tutorias/editar/{externalId}")
-public ResponseEntity editarTutoriaPorExternalId(
+
+    @PostMapping("/tutorias/editar/{externalId}")
+public ResponseEntity editarTutoriaEstadoPorExternalId(
         @PathVariable String externalId,
         @Valid @RequestBody TutoriasWS tutoriasWS) {
     Tutorias tutoria = tutoriasRepository.findByExternal_id(externalId);
 
     if (tutoria != null) {
-        // Actualizar los atributos de la tutoría con los valores del objeto tutoriasWS
-        tutoria.setFechaSolicitada(tutoriasWS.getFechaSolicitada());
-        tutoria.setHoras(tutoriasWS.getHoras());
-        tutoria.setModalidad(tutoriasWS.getModalidad());
-        tutoria.setTema(tutoriasWS.getTema());
-        tutoria.setFechaAceptada(tutoriasWS.getFechaAceptada());
+        // Actualizar solo el estado de la tutoría con el valor del objeto tutoriasWS
         tutoria.setEstado(tutoriasWS.getEstado());
         tutoria.setUpdateAt(new Date());
 
         tutoriasRepository.save(tutoria);
 
         HashMap<String, String> respuestaMap = new HashMap<>();
-        respuestaMap.put("evento", "Tutoría actualizada correctamente");
+        respuestaMap.put("evento", "Estado de la tutoría actualizado correctamente");
         return RespuestaLista.respuesta(respuestaMap, "Ok");
     } else {
         HashMap<String, String> errorMap = new HashMap<>();
@@ -178,6 +173,5 @@ public ResponseEntity editarTutoriaPorExternalId(
         return RespuestaLista.respuestaError(errorMap, "No se encontró la tutoría con el external_id proporcionado");
     }
 }
-
 
 }

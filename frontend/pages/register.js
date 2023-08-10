@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { registro } from './api/api';
+import Swal from 'sweetalert2'
+
 export default function Register() {
     const [password, setPassword] = useState('');
     const router = useRouter();
@@ -44,8 +46,17 @@ export default function Register() {
         registro(data).then((response) => {
             console.log(response);
             if (response.code != "200 OK") {
-                alert(response.data.json);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Error al crear la cuenta!',
+                  })
             } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Oops...',
+                    text: 'Cuenta creada con exito!',
+                  })
                 router.push('/login');
             }
         });

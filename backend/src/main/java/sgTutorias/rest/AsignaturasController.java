@@ -47,7 +47,7 @@ public class AsignaturasController {
             aux.put("external_asignatura", p.getExternal_id());
 
             // aux.put("fechaEmision", p.getRegistroTutorias().getFechaEmision());
-            // aux.put("external_persona",
+            //aux.put("external_docente", p.getRegistroTutorias().getPersona().getExternal_id());
             // p.getRegistroTutorias().getPersona().getExternal_id());
             // aux.put("nombre_persona", p.getRegistroTutorias().getPersona().getNombres());
             // aux.put("identificacion_persona",

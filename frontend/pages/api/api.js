@@ -111,6 +111,7 @@ export const logout = async () => {
 
 // Metodo para cerrar sesión
 export const obtenerRol = async () => {
+  console.log("ROL ", ObtenerRol());
   return ObtenerRol();
 }
 
@@ -173,4 +174,125 @@ export const guardarTutoria = async (data) => {
   });
   const result = await response.json();
   return result;
+}
+
+export const listarTutoriasIndividuales = async () => {
+  const response = await fetch(`${BASE_URL}/tutorias`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const result = await response.json();
+  return result;
+}
+
+
+export const tutoriasDoc = async () => {
+  const external_id = ObtenerExternal();
+  const response = await fetch(`${BASE_URL}/registro/tutorias`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const result = await response.json();
+  const tutoriasFiltradas = result.data.filter(tutoria => tutoria.external_docente === external_id);
+  console.log("TUTORIAS FILTRADAS ", tutoriasFiltradas);
+  return tutoriasFiltradas;
+}
+
+export const tutoriasEst = async () => {
+  const external_id = ObtenerExternal();
+  const response = await fetch(`${BASE_URL}/tutorias`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const result = await response.json();
+  const tutoriasFiltradas = result.data.filter(tutoria => tutoria.estudiante_external_id === external_id);
+  console.log("TUTORIAS FILTRADAS ", tutoriasFiltradas);
+  return tutoriasFiltradas;
+}
+
+// Metodo de Docente para editar tutoria con el external ID
+export const editarTutoria = async (external_id, data) => {
+  const response = await fetch(`${BASE_URL}/tutorias/editar/${external_id}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  const result = await response.json();
+  return result;
+};
+
+// Metodo para obtener el objeto tutoria 
+export const obtenerTutoria = async (external_id) => {
+  console.log("EXTERNAL ID ", external_id);
+  const response = await fetch(`${BASE_URL}/tutorias/obtener/${external_id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const result = await response.json();
+  return result;
+}
+
+export const listarTodasTutorias = async () => {
+  const response = await fetch(`${BASE_URL}/tutorias`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const result = await response.json();
+  return result;
+}
+
+export const listarTutoriasUser = async () => {
+  const external_id = ObtenerExternal();
+  const response = await fetch(`${BASE_URL}/tutorias`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const result = await response.json();
+
+  const tutoriasFiltradas = result.data.filter(tutoria => tutoria.external_docente === external_id);
+  console.log("TUTORIAS FILTRADAS ", tutoriasFiltradas);
+  return tutoriasFiltradas;
+}
+
+
+export const asignaturasDoc = async () => {
+  const external_id = ObtenerExternal();
+  const response = await fetch(`${BASE_URL}/tutorias`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const result = await response.json();
+  const tutoriasFiltradas = result.data.filter(tutoria => tutoria.external_docente === external_id);
+  console.log("TUTORIAS FILTRADAS ", tutoriasFiltradas);
+  return tutoriasFiltradas;
+}
+
+export const asignaturasEst = async () => {
+  const external_id = ObtenerExternal();
+  const response = await fetch(`${BASE_URL}/tutorias`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const result = await response.json();
+  const tutoriasFiltradas = result.data.filter(tutoria => tutoria.estudiante_external_id === external_id);
+  console.log("TUTORIAS FILTRADAS ", tutoriasFiltradas);
+  return tutoriasFiltradas;
 }

@@ -5,16 +5,24 @@ import styles from '../styles/Home.module.css';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from "next/image";
-import { listarTutorias, obtenerExternal } from "./api/api";
+import { listarTutorias, obtenerExternal, obtenerRol, tutoriasDoc } from "./api/api";
+
 export default function asignaturas() {
     const [llamada, setLlamada] = useState(false);
     const [external_id, setExternal_id] = useState(null);
+    const [rol, setRol] = useState(null); // Agrega el estado del rol
+    const [asignaturas, setAsignaturas] = useState([]); // Estado para almacenar las asignaturas
 
     useEffect(() => {
         obtenerExternal().then((data) => {
             console.log(data);
             setExternal_id(data.external_id);
-        })
+        });
+        obtenerRol().then(rol => {
+            const userRol = rol;
+            setRol(userRol);
+            console.log(rol);
+        });
 
         listarTutorias().then((data) => {
             console.log(data);
@@ -31,6 +39,19 @@ export default function asignaturas() {
         fechaEmision: '',
         external_persona: ''
     }]);
+    useEffect(() => {
+        if (rol === 'docente') {
+            // Filtrar las asignaturas por external_persona en docente
+            const asignaturasDocente = data.filter(item => item.external_persona === external_id);
+            tutoriasDoc().then((data) => {
+                setAsignaturas(data);
+
+            })
+        } else {
+            // Mostrar todas las asignaturas para otros roles
+            setAsignaturas(data);
+        }
+    }, [data, rol]);
     return (
         <AuthRoute>
             <div className='flex h-screen' style={{ backgroundColor: "#1a1c23" }}>
@@ -43,16 +64,16 @@ export default function asignaturas() {
                     <h1 className={styles.tittle}>Asignturas</h1>
                     <table className="h-full w-full whitespace-no-wrap">
                         <thead>
-                            <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                                <th class="px-4 py-3">Materia</th>
-                                <th class="text-center px-4 py-3">Ciclo</th>
-                                <th class="text-center px-4 py-3">Carrera</th>
-                                <th class="text-center px-4 py-3">Accion</th>
+                            <tr className="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                                <th className="px-4 py-3">Materia</th>
+                                <th className="text-center px-4 py-3">Ciclo</th>
+                                <th className="text-center px-4 py-3">Carrera</th>
+                                <th className="text-center px-4 py-3">Accion</th>
 
                             </tr>
                         </thead>
-                        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                            {data.map((item, index) => (
+                        <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                            {asignaturas.map((item, index) => (
                                 <tr key={index} className="text-gray-700 dark:text-gray-400">
                                     <td className="px-4 py-3">
                                         <div className="flex items-center text-sm">
@@ -79,14 +100,30 @@ export default function asignaturas() {
                                             {item.carrera}
                                         </span>
                                     </td>
-                                    <td className="px-4 py-3 text-sm text-center">
+                                    {rol == 'docente' && (
+                                        <td className="px-4 py-3 text-sm text-center">
+                            
+                                    
+                                        <div>
+                                            <Link href={`/tutorias`}>
+                                                <button className="items-center justify-between px-4 py-2 text-sm text-white transition-colors duration-1000 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 w-fit"
+                                                >Tutorias</button>
+                                            </Link>
+                                        </div>
+                                        </td>
+                                    )} 
+                                    {(rol == 'gestor' || rol == 'admin'|| rol == 'estudiante') && (
+                                        <td className="px-4 py-3 text-sm text-center">
+                            
+                                    
                                         <div>
                                             <Link href={`/tutorias/solicitar/${item.external_registro}`}>
                                                 <button className="items-center justify-between px-4 py-2 text-sm text-white transition-colors duration-1000 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 w-fit"
                                                 >Solicitar Tutoria</button>
                                             </Link>
                                         </div>
-                                    </td>
+                                        </td>
+                                    )} 
 
                                 </tr>
                             ))}

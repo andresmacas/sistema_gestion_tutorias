@@ -92,6 +92,7 @@ public class RegistroTutoriaController {
             aux.put("tutor_apellido", r.getPersona().getApellidos());
             aux.put("tutor_nombre", r.getPersona().getNombres());
             aux.put("tutor_identificacion", r.getPersona().getIdentificacion());
+            aux.put("external_docente", r.getPersona().getExternal_id());
             // aux.put("tutorias", r.getTutorias().;
             aux.put("external_registro", r.getExternal_id());
             // aux.put("tutorias", r.getTutorias());
