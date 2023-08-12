@@ -65,6 +65,7 @@ public class TutoriasController {
                 tutorias.setFechaAceptada(tutoriasWS.getFechaAceptada());
                 tutorias.setEstado(tutoriasWS.getEstado());
                 tutorias.setUpdateAt(new Date());
+                tutorias.setHoraInicio(tutoriasWS.getHoraInicio());
                 tutoriasRepository.save(tutorias);
                 mapa.put("evento", "Se ha registrado correctamente");
                 return RespuestaLista.respuesta(mapa, "OK");

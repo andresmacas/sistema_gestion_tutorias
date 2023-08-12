@@ -6,6 +6,10 @@ import styles from '../../../styles/Home.module.css'
 import { useState } from 'react'
 import { guardarTutoria, obtenerExternal, obtenerRegistroTutoria } from '@/pages/api/api'
 import { useRouter } from 'next/router';
+import { format } from 'date-fns';
+import { utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
+import Swal from 'sweetalert2'
+
 export default function solicitar() {
     const ModalidadOptions = ['Presencial', 'Virtual'];
     const router = useRouter();
@@ -29,19 +33,51 @@ export default function solicitar() {
         });
         ;
         event.preventDefault();
-        console.log("DAT", tutoriaData);
     };
     const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log("fecha", tutoriaData.fechaSolicitada);
-        tutoriaData.fechaSolicitada =new Date(tutoriaData.fechaSolicitada).toISOString();
-        console.log("fecha cambiada", tutoriaData.fechaSolicitada);
+        event.preventDefault();/*
+        const targetTimeZone = 'America/Guayaquil';
+
+        const originalDate = new Date(tutoriaData.fechaSolicitada);
+        const zonedDate = utcToZonedTime(originalDate, targetTimeZone);
+
+        const formattedDateString = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+
+        console.log(`Fecha original ${originalDate}`);
+        console.log(`Fecha formateada: ${formattedDateString}`);
+
+        tutoriaData.fechaSolicitada = formattedDateString;*/
+        /*console.log("fecha", tutoriaData.fechaSolicitada);
+        tutoriaData.fechaSolicitada = new Date(tutoriaData.fechaSolicitada).toISOString();
+        */
+
+        const targetTimeZone = 'America/Guayaquil';
+
+        const originalDate = new Date(tutoriaData.fechaSolicitada);
+        const zonedDate = utcToZonedTime(originalDate, targetTimeZone);
+
+        const formattedDateString = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        tutoriaData.fechaSolicitada = formattedDateString;
+        console.log(`Fecha original ${originalDate}`);
+        console.log(`Fecha formateada: ${formattedDateString}`);
+        console.log("DAT", tutoriaData);
+        console.log("fecha cambiada", tutoriaData);
+
         guardarTutoria(tutoriaData).then((response) => {
             console.log(response);
             if (response.code != "200 OK") {
-                alert("Errror");
+                Swal.fire({
+                    icon: 'Error',
+                    title: 'Oops...',
+                    text: 'Ocurrió un error, revisa los campos!',
+                })
                 router.reload();
             } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Completado!',
+                    text: 'Tutoría solicitada con exito!',
+                })
                 router.push("/tutorias");
             }
         })
@@ -74,7 +110,7 @@ export default function solicitar() {
 
     return (
         <AuthRoute>
-            <div className='flex h-screen' style={{ backgroundColor: "#1a1c23" }}>
+            <div className={styles.general}>
                 <Head>
                     <title>Solicitar tutoria</title>
                 </Head>
@@ -154,11 +190,11 @@ export default function solicitar() {
                             </div>
                         </label>
                         <label className="block text-sm">
-                            <span className="text-gray-700 dark:text-gray-400">Fecha y Hora de tutoría</span>
+                            <span className="text-gray-700 dark:text-gray-400">Fecha y hora de la tutoría</span>
                             <div className="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400 py-1">
                                 <input
                                     className="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
-                                    type="datetime-local" // Cambiado a "datetime-local"
+                                    type="datetime" // Cambiado a "datetime-local"
                                     name="fechaSolicitada" // Cambiado el nombre
                                     value={tutoriaData.fechaSolicitada} // Cambiado el valor
                                     onChange={handleInputChange}
@@ -184,7 +220,7 @@ export default function solicitar() {
                             type="submit"
                         >
 
-                            <span className=''>Solicitar Tutoria</span>
+                            <span className=''>Solicitar Tutoría</span>
                         </button>
 
                     </div>

@@ -1,8 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
+
+.general{
+    @apply flex h-screen bg-white-mode-background dark:bg-dark-mode-background;
+}
+
 .container {
-    background-color: #121317;
+    @apply bg-white dark:bg-dark-mode-container;
+    /*background-color: #121317;*/
     width: 100vw;
     border-radius: 12px;
     height: fit-content;
@@ -11,7 +17,8 @@
 }
 
 .tittle {
-    color: #fff;
+    /*color: #fff;*/
+    @apply text-black dark:text-white;
     font-size: 25px;
     --font-principal: 'Inter', sans-serif;
     font-family: var(--font-principal);

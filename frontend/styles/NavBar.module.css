@@ -10,12 +10,11 @@
 }
 
 .navbar {
-    --tw-text-opacity: 1;
-    justify-content: center;
-    color: rgb(243 244 246 / var(--tw-text-opacity));
-    transition-duration: 500ms;
+    /*--tw-text-opacity: 1;
+    */justify-content: center;
+    /*color: rgb(243 244 246 / var(--tw-text-opacity));
+    */transition-duration: 500ms;
     height: auto;
-    background-color: #000;
     padding-left: 1rem;
     padding-right: 1rem;
 }
@@ -25,4 +24,5 @@
     width: 20px;
     height: 20px;
     background-size: cover;
+    color: #000;
 }

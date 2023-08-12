@@ -7,12 +7,13 @@ export default function Home() {
 
     return (
         <AuthRoute>
-            <div className='flex h-screen' style={{ backgroundColor: "#1a1c23" }}>
+            <div className={styles.general}>
                 <Head>
                     <title>Home</title>
                 </Head>
                 <SideNavBar/>
                 <div className={styles.container}>
+                    
                 </div>
             </div>
         </AuthRoute>

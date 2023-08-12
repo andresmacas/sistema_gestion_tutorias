@@ -58,7 +58,7 @@ export default function Cuenta() {
             tipo_persona: newTipoPersona,
         }));
     };
-    
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -104,14 +104,14 @@ export default function Cuenta() {
 
     return (
         <AuthRoute>
-            <div className='flex h-screen' style={{ backgroundColor: "#1a1c23" }}>
+            <div className={styles.general}>
                 <Head>
                     <title>Configuracion</title>
                 </Head>
                 <SideNavBar />
                 <form className={styles.container} onSubmit={handleSubmit}>
                     <div >
-                        <h1 className={styles.tittle}>Gestion de perfil</h1>
+                        <h1 className={styles.tittle}>Gestión de perfil</h1>
                         <h1 style={{ paddingBottom: '13px' }} className={styles.minimalistsubtitleWhite}>DATOS PERSONALES</h1>
                         <div className="w-full grid grid-cols-2 gap-4 mb-8">
                             <label className="block text-sm">
@@ -141,7 +141,7 @@ export default function Cuenta() {
                             </label>
 
                             <label className="block text-sm">
-                                <span className="text-gray-700 dark:text-gray-400">Identificacion</span>
+                                <span className="text-gray-700 dark:text-gray-400">Identificación</span>
                                 <div className="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400 py-1">
                                     <input
                                         className="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
@@ -154,7 +154,7 @@ export default function Cuenta() {
                             </label>
 
                             <label className="block text-sm">
-                                <span className="text-gray-700 dark:text-gray-400">Direccion</span>
+                                <span className="text-gray-700 dark:text-gray-400">Dirección</span>
                                 <div className="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400 py-1">
                                     <input
                                         className="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
@@ -181,7 +181,7 @@ export default function Cuenta() {
 
 
                             <label className="block text-sm">
-                                <span className="text-gray-700 dark:text-gray-400">Telefono</span>
+                                <span className="text-gray-700 dark:text-gray-400">Teléfono</span>
                                 <div className="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400 py-1">
                                     <input
                                         className="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"

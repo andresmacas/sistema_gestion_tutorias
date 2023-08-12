@@ -50,13 +50,13 @@ export default function Register() {
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Error al crear la cuenta!',
-                  })
+                })
             } else {
                 Swal.fire({
                     icon: 'success',
                     title: 'Oops...',
                     text: 'Cuenta creada con exito!',
-                  })
+                })
                 router.push('/login');
             }
         });
@@ -143,8 +143,8 @@ export default function Register() {
                         <span className={styles.span}>Contraseña</span>
                         <div className={styles.iconToggle} style={{ backgroundImage: `url(${showIcon})` }} onClick={handleTogglePassword} />
                     </div>
-                    
-                    
+
+
                     <button type="submit" className={styles.button} style={{ width: '330px' }}>Registrate</button>
                 </div>
             </div>

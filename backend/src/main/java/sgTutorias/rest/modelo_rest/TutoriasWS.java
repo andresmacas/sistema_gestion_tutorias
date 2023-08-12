@@ -1,9 +1,12 @@
 package sgTutorias.rest.modelo_rest;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -33,6 +36,7 @@ public class TutoriasWS {
     //@NotNull(message = "El número de horas es requerido.")
     private Double horas;
     
+    private LocalTime horaInicio;  //
     private String external_id;
     
     //@NotNull(message = "El registro de tutoría es requerido.")

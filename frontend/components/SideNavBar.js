@@ -30,7 +30,7 @@ function SideNavBar() {
         }
     }
     return (
-        <section className='flex'>
+        <section className='flex bg-white-mode-navbar text-black dark:bg-black dark:text-white'>
             <div className={styles.navbar} style={{ width: `${width}` }}>
                 <div className='py-3 flex justify-center'>
                     <div className={styles.icon} style={{ cursor: 'pointer', backgroundImage: `url("/images/icon_menu.png")` }} onClick={() => setOpen(!open)} />
@@ -42,23 +42,23 @@ function SideNavBar() {
                     </div>
                     <h1 className={styles2.minimalistsubtitle}>Menu</h1>
 
-                    <Link href="/tutorias" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-zinc-900 rounded-md'>
+                    <Link href="/tutorias" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-slate-300 dark:hover:bg-zinc-900 rounded-md'>
                         <div className={styles.icon} style={{ backgroundImage: `url("/images/icon_tutorias.png")` }} />
                         <span className={` whitespace-pre duration-500 ${!open && 'opacity-0 overflow-hidden hidden'}`}>Tutorias</span>
                     </Link>
 
-                    <Link href="/asignaturas" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-zinc-900 rounded-md'>
+                    <Link href="/asignaturas" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-slate-300 dark:hover:bg-zinc-900 rounded-md'>
                         <div className={styles.icon} style={{ backgroundImage: `url("/images/icon_materias.png")` }} />
                         <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 overflow-hidden hidden'}`}>Asignaturas</span>
                     </Link>
 
-                    <Link href="/configuracion" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-zinc-900 rounded-md'>
-                        <div className={styles.icon} style={{ backgroundImage: `url("/images/icon_credentials_user.png")` }} />
+                    <Link href="/configuracion" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-slate-300 dark:hover:bg-zinc-900 rounded-md'>
+                        <div className={styles.icon} style={{ backgroundImage: `url("/images/icons_edit_profile.png")` }} />
                         <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 overflow-hidden hidden'}`}>Perfil</span>
                     </Link>
 
                     {role === 'admin' && (
-                        <Link href="/admin" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-zinc-900 rounded-md'>
+                        <Link href="/admin" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-slate-300 dark:hover:bg-zinc-900 rounded-md'>
                             <div className={styles.icon} style={{ backgroundImage: `url("/images/icon_admin.png")` }} />
                             <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 overflow-hidden hidden'}`}>Admin</span>
                         </Link>
@@ -66,13 +66,13 @@ function SideNavBar() {
 
 
                     {role === 'docente' && (
-                        <Link href="/reportes" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-zinc-900 rounded-md'>
-                            <div className={styles.icon} style={{ backgroundImage: `url("/images/icon_admin.png")` }} />
+                        <Link href="/reportes" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-slate-300 dark:hover:bg-zinc-900 rounded-md'>
+                            <div className={styles.icon} style={{ backgroundImage: `url("/images/icons_reports.png")` }} />
                             <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 overflow-hidden hidden'}`}>Reportes</span>
                         </Link>
                     )}
 
-                    <Link onClick={handleLogout} href="/" passHref className='mt-32 group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-zinc-900 rounded-md'>
+                    <Link onClick={handleLogout} href="/" passHref className='mt-32 group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-slate-300 dark:hover:bg-zinc-900 rounded-md'>
                         <div className={styles.icon} style={{ backgroundImage: `url("/images/icon_logout.png")` }} />
                         <span className={` whitespace-pre duration-500 ${!open && 'opacity-0 overflow-hidden hidden'}`}>Cerrar Sesión</span>
                     </Link>

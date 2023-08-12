@@ -1,5 +1,6 @@
 package sgTutorias.modelo;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -41,6 +42,9 @@ public class Tutorias implements java.io.Serializable{
     @Column(length = 100)
     private String estado;///////////////
     private Double horas;///
+    @Temporal(TemporalType.TIME)x
+    private LocalTime horaInicio;  //
+    
     //estudiantess
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(referencedColumnName = "id", name = "id_estudiante", nullable = false)

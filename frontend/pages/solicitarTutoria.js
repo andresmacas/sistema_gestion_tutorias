@@ -10,7 +10,7 @@ export default function solicitarTutoria() {
             <Head>
                 <title>Solicitar Tutoria</title>
             </Head>
-            <div className='flex h-screen' style={{ backgroundColor: "#1a1c23" }}>
+            <div className={styles.general}>
                 <SideNavBar />
                 <div className={styles.container}>
                     <div className="grid grid-cols-3 gap-4 items-center">
@@ -34,7 +34,7 @@ export default function solicitarTutoria() {
                             <p class="text-xs text-white">Ciclo: 6</p>
                         </div>
 
-                        
+
                     </div>
 
                 </div>

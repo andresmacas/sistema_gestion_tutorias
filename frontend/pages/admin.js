@@ -32,21 +32,21 @@ export default function admin() {
     return (
         <AuthRoute>
             <Head>
-                <title>Administracion</title>
+                <title>Administración</title>
             </Head>
             {role === 'admin' ? (
-                <div className="flex h-screen rounded-lg" style={{ backgroundColor: '#1a1c23' }}>
+                <div className={styles.general}>
                     <SideNavBar />
                     <div className={styles.container}>
-                        <h1 className={styles.tittle}>Administracion de usuarios</h1>
+                        <h1 className={styles.tittle}>Administración de usuarios</h1>
                         <table className="h-full w-full whitespace-no-wrap">
                             <thead>
                                 <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                                    <th class="px-4 py-3">Identificacion</th>
+                                    <th class="px-4 py-3">Identificación</th>
                                     <th class="px-4 py-3">Nombres</th>
                                     <th class="px-4 py-3">Apellidos</th>
                                     <th class="px-4 py-3">Rol</th>
-                                    <th class="px-4 py-3 text-center">Accion</th>
+                                    <th class="px-4 py-3 text-center">Acción</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -72,7 +72,7 @@ export default function admin() {
                     </div>
                 </div>
             ) : (
-                <div className="flex h-screen rounded-lg" style={{ backgroundColor: '#1a1c23' }}>
+                <div className={styles.general}>
                     <SideNavBar />
                     <div className={styles.container}>
                         <h1 className={styles.tittle}>ERROR - Recurso no autorizado</h1>

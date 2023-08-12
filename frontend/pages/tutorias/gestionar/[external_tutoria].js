@@ -2,6 +2,7 @@ import SideNavBar from '@/components/SideNavBar'
 import AuthRoute from '@/pages/authRoute'
 import Head from 'next/head'
 import React, { useEffect, useState } from 'react'
+import moment from 'moment';
 import styles from '../../../styles/Home.module.css'
 import { obtenerTutoria, editarTutoria } from '@/pages/api/api'
 import { useRouter } from 'next/router';
@@ -43,13 +44,13 @@ export default function VerTutoria() {
     const handleConfirm = () => {
         if (showConfirmation) {
             let newStatus = "";
-    
+
             if (actionTaken === 'aprobar') {
                 newStatus = "Aprobada";
             } else if (actionTaken === 'rechazar') {
                 newStatus = "Rechazada";
             }
-    
+
             if (newStatus) {
                 editarTutoria(external_tutoria, { estado: newStatus }).then((response) => {
                     if (response.code === "200 OK") {
@@ -63,28 +64,28 @@ export default function VerTutoria() {
                     }
                 });
             }
-    
+
             // Restablecer los valores de acción y confirmación
             setActionTaken('');
             setShowConfirmation(false);
         }
     };
-    
+
     const handleCancel = () => {
         setActionTaken(false);
         setShowConfirmation(false);
     };
     return (
         <AuthRoute>
-            <div className='flex h-screen' style={{ backgroundColor: "#1a1c23" }}>
+            <div className='flex h-screen bg-slate-400 dark:bg-dark-mode-background'>
                 <Head>
-                    <title>Ver Tutoria</title>
+                    <title>Ver Tutoría</title>
                 </Head>
                 <SideNavBar />
                 <div className={styles.container}>
                     <div>
-                        <h1 className={styles.tittle}>Detalles de la Tutoria</h1>
-                        <h1 style={{ paddingBottom: '13px' }} className={styles.minimalistsubtitleWhite}>DATOS DE LA TUTORIA</h1>
+                        <h1 className={styles.tittle}>Detalles de la tutoría</h1>
+                        <h1 style={{ paddingBottom: '13px' }} className={styles.minimalistsubtitleWhite}>DATOS DE LA TUTORÍA</h1>
                     </div>
                     <div className="grid grid-cols-2 gap-4 mb-8">
 
@@ -97,10 +98,10 @@ export default function VerTutoria() {
                             />
                         </label>
                         <label className="block text-sm">
-                            <span className="text-gray-700 dark:text-gray-400">Fecha Solicitada</span>
+                            <span className="text-gray-700 dark:text-gray-400">Fecha suguerida por el estudiante</span>
                             <input
                                 className="block h-9 w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:bg-gray-700 bg-gray-200"
-                                value={tutoriaData.fecha_solicitada}
+                                value={moment(tutoriaData.fecha_solicitada).format("DD/MM/YYYY - HH:mm")}
                                 readOnly
                             />
                         </label>
@@ -129,7 +130,7 @@ export default function VerTutoria() {
                             />
                         </label>
                         <label className="block text-sm">
-                            <span className="text-gray-700 dark:text-gray-400">Nombre del Estudiante</span>
+                            <span className="text-gray-700 dark:text-gray-400">Nombre del estudiante</span>
                             <input
                                 className="block h-9 w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:bg-gray-700 bg-gray-200"
                                 value={tutoriaData.estudiante_nombre + " " + tutoriaData.estudiante_apellido}
@@ -137,6 +138,13 @@ export default function VerTutoria() {
                             />
                         </label>
 
+                        <label className="block text-sm">
+                            <span className="text-gray-700 dark:text-gray-400">Observación</span>
+                            <textarea
+                                className="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:bg-gray-700 bg-gray-200"
+                                value={tutoriaData.observacion}
+                            />
+                        </label>
                     </div>
                     {tutoriaData.estado !== "Aprobada" && tutoriaData.estado !== "Rechazada" && (
                         <div className="px-4 py-3">

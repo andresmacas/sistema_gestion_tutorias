@@ -27,7 +27,7 @@ export default function registro() {
                 alert("Contraseña Incorrecta");
                 router.reload();
             } else {
-                router.push("/tutorias");                
+                router.push("/tutorias");
             }
         });
         setData({
@@ -83,14 +83,14 @@ export default function registro() {
     return (
         <AuthRoute>
             <Head>
-                <title>Registro de tutorias</title>
+                <title>Registro de tutorías</title>
             </Head>
 
             {role === 'docente' ? (
-                <div className="flex h-screen rounded-lg" style={{ backgroundColor: '#1a1c23' }}>
+                <div className={styles.general}>
                     <SideNavBar />
                     <form className={styles.container} onSubmit={handleSubmit}>
-                        <h1 className={styles.tittle}>Tutorias Pendientes</h1>
+                        <h1 className={styles.tittle}>Tutorías Pendientes</h1>
                         <div className="w-full grid grid-cols-2 gap-4 mb-8">
                             <label className="block text-sm">
                                 <span className="text-gray-700 dark:text-gray-400">Asignatura</span>
@@ -153,7 +153,7 @@ export default function registro() {
                     </form>
                 </div>
             ) : (
-                <div className="flex h-screen rounded-lg" style={{ backgroundColor: '#1a1c23' }}>
+                <div className={styles.general}>
                     <SideNavBar />
                     <div className={styles.container}>
                         <h1 className={styles.tittle}>ERROR - Recurso no autorizado</h1>

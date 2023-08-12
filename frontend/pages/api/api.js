@@ -20,6 +20,9 @@ export const loginUser = async (correo, clave) => {
 
 // Metodo para registrar una persona
 export const registro = async (data) => {
+  const personas = await listarPersonas();
+  personas.data.filter(tutoria => tutoria.external_docente === external_id);
+  
   const response = await fetch(`${BASE_URL}/personas/guardar`, {
     method: 'POST',
     headers: {
@@ -187,8 +190,8 @@ export const listarTutoriasIndividuales = async () => {
   return result;
 }
 
-
-export const tutoriasDoc = async () => {
+// Antes tutoriasDoc
+export const reg_tutoriasDoc = async () => {
   const external_id = ObtenerExternal();
   const response = await fetch(`${BASE_URL}/registro/tutorias`, {
     method: 'GET',
@@ -268,8 +271,8 @@ export const listarTutoriasUser = async () => {
   return tutoriasFiltradas;
 }
 
-
-export const asignaturasDoc = async () => {
+// Antes asignaturasDoc
+export const tutoriasDoc = async () => {
   const external_id = ObtenerExternal();
   const response = await fetch(`${BASE_URL}/tutorias`, {
     method: 'GET',
@@ -278,7 +281,7 @@ export const asignaturasDoc = async () => {
     },
   });
   const result = await response.json();
-  const tutoriasFiltradas = result.data.filter(tutoria => tutoria.external_docente === external_id);
+  const tutoriasFiltradas = result.data.filter(tutoria => tutoria.external_docente === external_id && tutoria.estado !== "Solicitada");
   console.log("TUTORIAS FILTRADAS ", tutoriasFiltradas);
   return tutoriasFiltradas;
 }
