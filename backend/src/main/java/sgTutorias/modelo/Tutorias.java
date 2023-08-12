@@ -34,17 +34,16 @@ public class Tutorias implements java.io.Serializable{
     private String tema;//
     @Column(length = 100)
     private String modalidad;//
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fechaSolicitada;//
     //fecha inicio
     @Temporal(TemporalType.DATE)
     private Date fechaAceptada;  //
     @Column(length = 100)
     private String estado;///////////////
-    private Double horas;///
-    @Temporal(TemporalType.TIME)x
-    private LocalTime horaInicio;  //
-    
+    private Double horas;///  //
+    @Column(length = 500)
+    private String observacion;
     //estudiantess
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(referencedColumnName = "id", name = "id_estudiante", nullable = false)

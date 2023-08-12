@@ -65,7 +65,7 @@ public class TutoriasController {
                 tutorias.setFechaAceptada(tutoriasWS.getFechaAceptada());
                 tutorias.setEstado(tutoriasWS.getEstado());
                 tutorias.setUpdateAt(new Date());
-                tutorias.setHoraInicio(tutoriasWS.getHoraInicio());
+                tutorias.setObservacion(tutoriasWS.getObservacion());
                 tutoriasRepository.save(tutorias);
                 mapa.put("evento", "Se ha registrado correctamente");
                 return RespuestaLista.respuesta(mapa, "OK");
@@ -161,6 +161,7 @@ public ResponseEntity editarTutoriaEstadoPorExternalId(
     if (tutoria != null) {
         // Actualizar solo el estado de la tutoría con el valor del objeto tutoriasWS
         tutoria.setEstado(tutoriasWS.getEstado());
+        tutoria.setObservacion(tutoriasWS.getObservacion());
         tutoria.setUpdateAt(new Date());
 
         tutoriasRepository.save(tutoria);

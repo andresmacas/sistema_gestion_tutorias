@@ -194,7 +194,7 @@ export default function solicitar() {
                             <div className="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400 py-1">
                                 <input
                                     className="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
-                                    type="datetime" // Cambiado a "datetime-local"
+                                    type="datetime-local" // Cambiado a "datetime-local"
                                     name="fechaSolicitada" // Cambiado el nombre
                                     value={tutoriaData.fechaSolicitada} // Cambiado el valor
                                     onChange={handleInputChange}

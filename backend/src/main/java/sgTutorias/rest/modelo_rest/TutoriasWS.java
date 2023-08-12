@@ -35,7 +35,7 @@ public class TutoriasWS {
     
     //@NotNull(message = "El número de horas es requerido.")
     private Double horas;
-    
+    private String observacion;
     private LocalTime horaInicio;  //
     private String external_id;
     
