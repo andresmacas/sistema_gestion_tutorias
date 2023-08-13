@@ -1,13 +1,15 @@
+import { useState, useEffect } from 'react';
+import { listarPersonas, registro } from './api/api';
 import Head from 'next/head';
 import bg from '../public/images/login_background.jpg';
 import styles from '../styles/Login.module.css';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { registro } from './api/api';
 import Swal from 'sweetalert2'
 
 export default function Register() {
+    const [persona, setPersona] = useState('');
+    const [identificacion, setIdentificacion] = useState('');
     const [password, setPassword] = useState('');
     const router = useRouter();
     const [data, setData] = useState({
@@ -22,6 +24,19 @@ export default function Register() {
             clave: '',
         }
     });
+
+    useEffect(() => {
+        listarPersonas().then((data) => {
+            console.log("***PERSONA", data);
+            setPersona(data.data);
+        })
+    }, []);
+    const isValidName = (name) => /^[a-zA-Z\s]+$/.test(name);
+    const isValidIdentificacion = (identificacion) => /^\d{10}$/.test(identificacion);
+    const isValidDireccion = (direccion) => direccion.length >= 4;
+    const isValidTelefono = (telefono) => /^\d{10}$/.test(telefono);
+    const isValidCorreo = (correo) => /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(correo);
+    const isValidClave = (clave) => clave.length >= 6;
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -43,38 +58,124 @@ export default function Register() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        registro(data).then((response) => {
-            console.log(response);
-            if (response.code != "200 OK") {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Error al crear la cuenta!',
-                })
-            } else {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Oops...',
-                    text: 'Cuenta creada con exito!',
-                })
-                router.push('/login');
-            }
-        });
-        setData({
-            apellidos: '',
-            nombres: '',
-            identificacion: '',
-            direccion: '',
-            telefono: '',
-            tipo_persona: "estudiante",
-            cuenta: {
-                correo: '',
-                clave: '',
-            }
-        });
+        const identificacionExists = persona.some(
+            (item) => item.identificacion === data.identificacion);
+        const correoExists = persona.some(
+            (item) => item.correo === data.cuenta.correo);;
 
-    };
+        if (!isValidName(data.nombres)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error de validación',
+                text: 'Por favor ingresa un nombre válido.',
+            });
+            return;
+        }
 
+        if (!isValidName(data.apellidos)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error de validación',
+                text: 'Por favor ingresa apellidos válidos.',
+            });
+            return;
+        }
+
+        if (!isValidIdentificacion(data.identificacion)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error de validación',
+                text: 'Por favor ingresa una identificación válida.',
+            });
+            return;
+        }
+
+        if (!isValidDireccion(data.direccion)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error de validación',
+                text: 'Por favor ingresa una dirección válida.',
+            });
+            return;
+        }
+
+        if (!isValidTelefono(data.telefono)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error de validación',
+                text: 'Por favor ingresa un teléfono válido.',
+            });
+            return;
+        }
+
+        if (!isValidCorreo(data.cuenta.correo)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error de validación',
+                text: 'Por favor ingresa un correo válido.',
+            });
+            return;
+        }
+
+        if (!isValidClave(data.cuenta.clave)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error de validación',
+                text: 'Por favor ingresa una contraseña válida.',
+            });
+            return;
+        }
+        if (identificacionExists) {
+            console.log("***item", persona.map(item => item.identificacion));
+            console.log("***DATA", data.identificacion);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'La identificación ya se encuentra registrada!',
+            })
+            return;
+        } else if (correoExists) {
+            console.log("***DATA CORREO", data.cuenta.correo);
+            console.log("***item CORREO", persona.map(item => item.correo));
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'El Correo ya se encuentra registrado!',
+            })
+            return;
+        } else {
+            registro(data).then((response) => {
+                console.log(response);
+                if (response.code != "200 OK") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Error al crear la cuenta!',
+                    })
+                } else {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Bien...',
+                        text: 'Cuenta creada con exito!',
+                    })
+                    router.push('/login');
+                }
+
+                setData({
+                    apellidos: '',
+                    nombres: '',
+                    identificacion: '',
+                    direccion: '',
+                    telefono: '',
+                    tipo_persona: "estudiante",
+                    cuenta: {
+                        correo: '',
+                        clave: '',
+                    }
+                });
+            });
+        }
+    }
     const [showPassword, setShowPassword] = useState(false);
     const handleTogglePassword = () => {
         var tipo = document.getElementById("password");

@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import SideNavBar from '@/components/SideNavBar';
 import React from 'react';
 import AuthRoute from './authRoute';
@@ -21,6 +22,39 @@ export default function Configuracion() {
             clave: '',
         }
     });
+
+    const isValidName = (name) => {
+        // Implementa tu lógica de validación para nombres
+        return /^[a-zA-Z\s]+$/.test(name);
+    };
+
+    const isValidIdentificacion = (identificacion) => {
+        // Implementa tu lógica de validación para identificación
+        return /^\d{10}$/.test(identificacion);
+    };
+    const isValidDireccion = (direccion) => {
+        // Implementa tu lógica de validación para dirección
+        // Por ejemplo, podría ser que la dirección tenga al menos 5 caracteres
+        return direccion.length >= 4;
+    };
+
+    const isValidTelefono = (telefono) => {
+        // Implementa tu lógica de validación para teléfono
+        // Por ejemplo, podría ser que el teléfono tenga el formato correcto
+        return /^\d{10}$/.test(telefono);
+    };
+
+    const isValidCorreo = (correo) => {
+        // Implementa tu lógica de validación para correo
+        // Por ejemplo, podría ser que el correo tenga un formato válido
+        return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(correo);
+    };
+
+    const isValidClave = (clave) => {
+        // Implementa tu lógica de validación para clave
+        // Por ejemplo, podría ser que la clave tenga al menos 6 caracteres
+        return clave.length >= 6;
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -69,12 +103,84 @@ export default function Configuracion() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(data);
+        if (!isValidName(data.nombres)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error de validación',
+                text: 'Por favor ingresa un nombre válido.',
+            });
+            return;
+        }
+    
+        if (!isValidName(data.apellidos)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error de validación',
+                text: 'Por favor ingresa apellidos válidos.',
+            });
+            return;
+        }
+    
+        if (!isValidIdentificacion(data.identificacion)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error de validación',
+                text: 'Por favor ingresa una identificación válida.',
+            });
+            return;
+        }
+    
+        if (!isValidDireccion(data.direccion)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error de validación',
+                text: 'Por favor ingresa una dirección válida.',
+            });
+            return;
+        }
+    
+        if (!isValidTelefono(data.telefono)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error de validación',
+                text: 'Por favor ingresa un teléfono válido.',
+            });
+            return;
+        }
+    
+        if (!isValidCorreo(data.cuenta.correo)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error de validación',
+                text: 'Por favor ingresa un correo válido.',
+            });
+            return;
+        }
+    
+        if (!isValidClave(data.cuenta.clave)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error de validación',
+                text: 'Por favor ingresa una contraseña válida.',
+            });
+            return;
+        }
+    
         editarPersonaActual(data).then((response) => {
             console.log(response);
             if (response.code != "200 OK") {
-                alert("Contraseña Incorrecta");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error de validación',
+                    text: 'Contraseña Incorrecta',
+                });
                 router.reload();
             } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: '¡Se ha editado el perfil exitosamente!',
+                });            
                 router.reload();
             }
         });
@@ -111,6 +217,7 @@ export default function Configuracion() {
                                     <input
                                         className="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
                                         placeholder="Jane Doe" name="nombres" value={data.nombres} onChange={handleInputChange}
+                                        required
                                     />
                                     <div className="absolute inset-y-0 flex items-center ml-3 pointer-events-none">
                                         <div className="absolute" style={{ opacity: "0.7", backgroundSize: "cover", width: "20px", height: "20px", backgroundImage: `url("/images/icon_credentials_user.png")` }} />
@@ -124,6 +231,7 @@ export default function Configuracion() {
                                     <input
                                         className="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
                                         placeholder="Smith Jhonson" name="apellidos" value={data.apellidos} onChange={handleInputChange}
+                                        required
                                     />
                                     <div className="absolute inset-y-0 flex items-center ml-3 pointer-events-none">
                                         <div className="absolute" style={{ opacity: "0.7", backgroundSize: "cover", width: "20px", height: "20px", backgroundImage: `url("/images/icon_credentials_user.png")` }} />
@@ -137,6 +245,7 @@ export default function Configuracion() {
                                     <input
                                         className="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
                                         placeholder="xxxxxxxxxx" name="identificacion" value={data.identificacion} onChange={handleInputChange}
+                                        required
                                     />
                                     <div className="absolute inset-y-0 flex items-center ml-3 pointer-events-none">
                                         <div className="absolute" style={{ opacity: "0.7", backgroundSize: "cover", width: "20px", height: "20px", backgroundImage: `url("/images/icon_id_card.png")` }} />
@@ -150,6 +259,7 @@ export default function Configuracion() {
                                     <input
                                         className="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
                                         placeholder="Tu direccion" name="direccion" value={data.direccion} onChange={handleInputChange}
+                                        required
                                     />
                                     <div className="absolute inset-y-0 flex items-center ml-3 pointer-events-none">
                                         <div className="absolute" style={{ opacity: "0.7", backgroundSize: "cover", width: "20px", height: "20px", backgroundImage: `url("/images/icon_direccion.png")` }} />
@@ -163,6 +273,7 @@ export default function Configuracion() {
                                     <input
                                         className="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
                                         placeholder="09xxxxxxxx" name="telefono" value={data.telefono} onChange={handleInputChange}
+                                        required
                                     />
                                     <div className="absolute inset-y-0 flex items-center ml-3 pointer-events-none">
                                         <div className="absolute" style={{ opacity: "0.7", backgroundSize: "cover", width: "20px", height: "20px", backgroundImage: `url("/images/icon_phone.png")` }} />
@@ -180,6 +291,7 @@ export default function Configuracion() {
                                     <input
                                         className="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
                                         placeholder="example@example.com" name="correo" value={data.cuenta.correo} onChange={handleInputChange}
+                                        required
                                     />
                                     <div className="absolute inset-y-0 flex items-center ml-3 pointer-events-none">
                                         <div className="absolute" style={{ opacity: "0.7", backgroundSize: "cover", width: "20px", height: "20px", backgroundImage: `url("/images/icon_email.png")` }} />
@@ -194,6 +306,7 @@ export default function Configuracion() {
                                         className="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
                                         placeholder="******"
                                         type='password' name="clave" onChange={handleInputChange}
+                                        required
                                     />
                                     <div className="absolute inset-y-0 flex items-center ml-3 pointer-events-none">
                                         <div className="absolute" style={{ opacity: "0.7", backgroundSize: "cover", width: "20px", height: "20px", backgroundImage: `url("/images/icon_show_password.png")` }} />

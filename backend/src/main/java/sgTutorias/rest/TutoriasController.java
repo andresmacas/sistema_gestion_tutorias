@@ -106,6 +106,7 @@ public class TutoriasController {
             aux.put("external_registroTutoria", t.getRegistroTutorias().getExternal_id());
             aux.put("external_id_tutoria", t.getExternal_id());
             aux.put("external_docente", t.getRegistroTutorias().getPersona().getExternal_id());
+            aux.put("observacion", t.getObservacion());
             aux.put("updateAt", t.getUpdateAt());
             if (t.getEstudiante() != null) {
                 aux.put("estudiante_external_id", t.getEstudiante().getExternal_id());
@@ -134,6 +135,7 @@ public class TutoriasController {
             tutoriaMap.put("tema", tutoria.getTema());
             tutoriaMap.put("fecha_aceptada", tutoria.getFechaAceptada());
             tutoriaMap.put("createAt", tutoria.getCreateAt());
+            tutoriaMap.put("observacion", tutoria.getObservacion());
             tutoriaMap.put("updateAt", tutoria.getUpdateAt());
 
             if (tutoria.getEstudiante() != null) {
@@ -153,27 +155,30 @@ public class TutoriasController {
     }
 
     @PostMapping("/tutorias/editar/{externalId}")
-public ResponseEntity editarTutoriaEstadoPorExternalId(
-        @PathVariable String externalId,
-        @Valid @RequestBody TutoriasWS tutoriasWS) {
-    Tutorias tutoria = tutoriasRepository.findByExternal_id(externalId);
+    public ResponseEntity editarTutoriaEstadoPorExternalId(
+            @PathVariable String externalId,
+            @Valid @RequestBody TutoriasWS tutoriasWS) {
+        Tutorias tutoria = tutoriasRepository.findByExternal_id(externalId);
 
-    if (tutoria != null) {
-        // Actualizar solo el estado de la tutoría con el valor del objeto tutoriasWS
-        tutoria.setEstado(tutoriasWS.getEstado());
-        tutoria.setObservacion(tutoriasWS.getObservacion());
-        tutoria.setUpdateAt(new Date());
+        if (tutoria != null) {
+            // Actualizar solo el estado de la tutoría con el valor del objeto tutoriasWS
+            tutoria.setEstado(tutoriasWS.getEstado());
+            tutoria.setObservacion(tutoriasWS.getObservacion());
+            if (tutoriasWS.getFechaSolicitada() != null) {
+                tutoria.setFechaSolicitada(tutoriasWS.getFechaSolicitada());
+            }
+            tutoria.setUpdateAt(new Date());
+            tutoriasRepository.save(tutoria);
 
-        tutoriasRepository.save(tutoria);
-
-        HashMap<String, String> respuestaMap = new HashMap<>();
-        respuestaMap.put("evento", "Estado de la tutoría actualizado correctamente");
-        return RespuestaLista.respuesta(respuestaMap, "Ok");
-    } else {
-        HashMap<String, String> errorMap = new HashMap<>();
-        errorMap.put("evento", "Tutoría no encontrada");
-        return RespuestaLista.respuestaError(errorMap, "No se encontró la tutoría con el external_id proporcionado");
+            HashMap<String, String> respuestaMap = new HashMap<>();
+            respuestaMap.put("evento", "Estado de la tutoría actualizado correctamente");
+            return RespuestaLista.respuesta(respuestaMap, "Ok");
+        } else {
+            HashMap<String, String> errorMap = new HashMap<>();
+            errorMap.put("evento", "Tutoría no encontrada");
+            return RespuestaLista.respuestaError(errorMap,
+                    "No se encontró la tutoría con el external_id proporcionado");
+        }
     }
-}
 
 }

@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { loginUser, obtener } from './api/api';
 import { useRouter } from 'next/router';
+import Swal from 'sweetalert2';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -17,9 +18,20 @@ export default function Login() {
                     console.log(response.data.data.external); // Aquí puedes acceder a los datos de la respuesta
                     if (response.data.code == "200 OK") {
                         router.push('/home');
+                    } else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Ocurrió un error...',
+                            text: 'Revisa tus credenciales!',
+                        })
                     }
                 })
                 .catch((error) => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Tenemos un error de servidor...',
+                        text: 'Intentalo más tarde!',
+                    })
                     console.error('Error al iniciar sesión:', error);
                 });
         } catch (error) {

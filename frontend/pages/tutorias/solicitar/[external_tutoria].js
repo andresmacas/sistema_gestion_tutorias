@@ -23,6 +23,7 @@ export default function solicitar() {
         modalidad: '',
         tema: '',
         fechaAceptada: '',
+        observacion: '',
         estado: 'Solicitada'
     });
     const handleInputChange = (event) => {

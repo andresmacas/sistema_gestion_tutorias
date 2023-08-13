@@ -4,14 +4,71 @@ import Head from "next/head";
 import AuthRoute from "../authRoute";
 import moment from 'moment';
 import Image from "next/image";
+import Swal from 'sweetalert2'
 import { useState, useEffect } from "react";
 import { obtenerRol, listarTutorias, tutoriasDoc, asignaturasEst } from "../api/api";
 import Link from "next/link";
+import { utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
+import { format } from 'date-fns';
+
 export default function Tutorias() {
     const [role, setRole] = useState('');
     const [data, setData] = useState([]); // Estado para almacenar todas las tutorías
+    const [currentDate, setCurrentDate] = useState(''); // Estado para almacenar la fecha actual
+
+    const detalles = (index) => {
+        Swal.fire({
+            title: `${data[index].materia}`,
+            html: `
+              <p><strong>Estudiante:</strong> ${data[index].estudiante_nombre} ${data[index].estudiante_apellido}</p>
+              <p><strong>Fecha de tutoría:</strong> ${moment(data[index].fecha_solicitada).format("YYYY-MM-DD - HH:mm")}</p>
+              <p><strong>Estado:</strong> ${data[index].estado}</p>
+              <p><strong>Docente:</strong> ${data[index].docente}</p>
+              <p><strong>Horas:</strong> ${data[index].horas}</p>
+              <p><strong>Tema:</strong> ${data[index].tema}</p>
+              <p><strong>Modalidad:</strong> ${data[index].modalidad}</p>
+              <p><strong>Materia:</strong> ${data[index].materia}</p>
+              <p><strong>Observación:</strong> ${data[index].observacion}</p>
+            `
+        });
+    }
+
+    const verInformacion = (index) => {
+        Swal.fire({
+            title: `${data[index].materia}`,
+            html: `
+                <p><strong>Observación de la tutoría:</strong> ${data[index].observacion}</p>
+                `
+        })
+    }
+    // Reprogramar fecha
+    const handleOpenModal = (index) => {
+        Swal.fire({
+            title: 'Editar Fechas',
+            html: `
+                <div>
+                  <p>Fecha Actual: ${data[index].fecha_solicitada}</p>
+                  <input
+                    type="datetime-local"
+                    id="fechaEditable"
+                    class="swal2-input"
+                  />
+                </div>
+              `,
+            focusConfirm: false,
+            preConfirm: () => {
+                const fechaEditable = document.getElementById('fechaEditable').value;
+                setNuevaFecha(fechaEditable);
+            },
+        });
+    };
 
     useEffect(() => {
+        const targetTimeZone = 'America/Guayaquil';
+        const originalDate = new Date();
+        const zonedDate = utcToZonedTime(originalDate, targetTimeZone);
+        const formattedDateString = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        setCurrentDate(formattedDateString);
         obtenerRol().then(rol => {
             const userRole = rol;
             setRole(userRole);
@@ -24,6 +81,7 @@ export default function Tutorias() {
                 let tutorias = [];
                 if (role === 'docente') {
                     console.log("Cargando tutorias docente");
+                    console.log(currentDate);
                     tutorias = await tutoriasDoc();
                 } else if (role === 'estudiante') {
                     tutorias = await asignaturasEst();
@@ -39,18 +97,21 @@ export default function Tutorias() {
         <AuthRoute>
             <div className={styles.general}>
                 <Head>
-                    <title>Tutorias</title>
+                    <title>Tutorías</title>
                 </Head>
                 <SideNavBar />
                 <div className={styles.container}>
-                    <h1 className={styles.tittle}>Tutorias</h1>
+                    <h1 className={styles.tittle}>Tutorías</h1>
                     <table className="h-full w-full whitespace-no-wrap">
                         <thead>
-                        <tr className="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                            <tr className="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                                 <th class="px-4 py-3">Materia</th>
                                 <th class="px-4 py-3 text-center">Tema</th>
                                 <th class="px-4 py-3 text-center">Estado</th>
                                 <th class="px-4 py-3 text-center">Fecha</th>
+                                {role === 'docente' && (
+                                    <th class="px-4 py-3 text-center">Detalles</th>
+                                )}
                                 <th class="px-4 py-3 text-center">Acción</th>
                             </tr>
                         </thead>
@@ -84,16 +145,88 @@ export default function Tutorias() {
                                         </span>
                                     </td>
                                     <td className="px-4 py-3 text-sm text-center">
-                                    {moment(tutoria.fecha_solicitada).format('YYYY-MM-DD')}
+                                        {moment(tutoria.fecha_solicitada).format('YYYY-MM-DD')}
                                         <p className="text-xs text-gray-600 dark:text-gray-400">{moment(tutoria.fecha_solicitada).format('HH:mm')} - {tutoria.horas} hora(s)</p>
                                     </td>
-                                    <td className="px-4 py-3 text-center">
-                                        <div>
-                                            <button className="items-center justify-between px-4 py-2 text-sm text-white transition-colors duration-1000 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 w-fit">
-                                                Detalles
-                                            </button>
-                                        </div>
-                                    </td>
+
+                                    {role === 'docente' && (
+                                        <td className="px-4 py-3 text-sm text-center">
+                                            <svg
+                                                className="mx-auto block w-5 h-5"
+                                                aria-hidden="true"
+                                                fill="currentColor"
+                                                viewBox="0 0 20 20"
+                                                cursor="pointer"
+                                                onClick={() => detalles(index)}
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M10 0a10 10 0 100 20 10 10 0 000-20zm0 1.67a8.33 8.33 0 110 16.66 8.33 8.33 0 010-16.66zm.83 12.75a.83.83 0 01-.83.84H9.17a.83.83 0 01-.83-.84v-4.8a.83.83 0 01.83-.84h.83a.83.83 0 01.83.84V14.42zm-.83-5.51a.59.59 0 01-.59-.59V5.75a.59.59 0 111.18 0v2.23a.59.59 0 01-.59.59z"
+                                                    clipRule="evenodd"
+                                                ></path>
+                                            </svg>
+                                        </td>
+                                    )}
+                                    {role === 'docente' ? (
+
+                                        moment(currentDate).isAfter(tutoria.fecha_solicitada) ? (
+                                            <td className="px-4 py-3 text-center">
+                                                <div>
+                                                    <button className="items-center justify-between px-4 py-2 text-sm text-white transition-colors duration-1000 bg-red-600 border border-transparent rounded-lg hover:bg-red-700 w-fit">
+                                                        Finalizar
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        ) : (
+                                            tutoria.estado !== 'Rechazada' && tutoria.estado !== 'Finalizada' ? (
+                                                <td className="px-4 py-3 text-center">
+                                                    <div>
+                                                        <button onClick={() => handleOpenModal(index)} className="mt-1 items-center justify-between px-4 py-2 text-sm text-white transition-colors duration-1000 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 w-fit">
+                                                            Re-Programar
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            ) : (
+                                                <td className="px-4 py-3 text-center">
+                                                    <div>
+                                                        <button onClick={() => verInformacion(index)} className="mt-1 items-center justify-between px-4 py-2 text-sm text-white transition-colors duration-1000 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 w-fit">
+                                                            Información
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            )
+                                        )
+                                    ) : (
+                                        tutoria.estado === 'Re-Asignada' && role === 'estudiante' ? (
+                                            <td className="px-4 py-3 text-center">
+                                                <div>
+                                                    <button onClick={() => detalles(index)} className="items-center justify-between px-4 py-2 text-sm text-white transition-colors duration-1000 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 w-fit">
+                                                        Gestionar
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        ) : (
+                                            tutoria.estado === 'Rechazada' || tutoria.estado === 'Finalizada' ? (
+                                                <td className="px-4 py-3 text-center">
+                                                    <div>
+                                                        <button onClick={() => verInformacion(index)} className="mt-1 items-center justify-between px-4 py-2 text-sm text-white transition-colors duration-1000 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 w-fit">
+                                                            Información
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            ) : (
+                                                <td className="px-4 py-3 text-center">
+                                                    <div>
+                                                        <button onClick={() => detalles(index)} className="items-center justify-between px-4 py-2 text-sm text-white transition-colors duration-1000 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 w-fit">
+                                                            Detalles
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            )
+
+                                        )
+                                    )}
+
                                 </tr>
 
                             ))}

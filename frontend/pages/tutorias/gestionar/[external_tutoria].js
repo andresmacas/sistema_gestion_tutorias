@@ -6,12 +6,13 @@ import moment from 'moment';
 import styles from '../../../styles/Home.module.css'
 import { obtenerTutoria, editarTutoria } from '@/pages/api/api'
 import { useRouter } from 'next/router';
-
+import Swal from 'sweetalert2';
 export default function VerTutoria() {
     const router = useRouter();
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [actionTaken, setActionTaken] = useState(false);
     const { external_tutoria } = router.query;
+    const [editedObservacion, setEditedObservacion] = useState('');
     const [tutoriaData, setTutoriaData] = useState({
         fecha_aceptada: '',
         estado: '',
@@ -21,7 +22,8 @@ export default function VerTutoria() {
         tema: '',
         modalidad: '',
         estudiante_nombre: '',
-        estudiante_apellido: ''
+        estudiante_apellido: '',
+        observacion: '',
     });
 
     useEffect(() => {
@@ -43,6 +45,15 @@ export default function VerTutoria() {
 
     const handleConfirm = () => {
         if (showConfirmation) {
+
+            if (editedObservacion.split(' ').length <= 4) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Observación inválida',
+                    text: 'Por favor, ingresa más de 4 palabras en la observación.',
+                });
+                return;
+            }
             let newStatus = "";
 
             if (actionTaken === 'aprobar') {
@@ -52,13 +63,20 @@ export default function VerTutoria() {
             }
 
             if (newStatus) {
-                editarTutoria(external_tutoria, { estado: newStatus }).then((response) => {
+                editarTutoria(external_tutoria, { estado: newStatus, observacion: editedObservacion }).then((response) => {
                     if (response.code === "200 OK") {
                         // Actualizar el estado local de la tutoría
                         setTutoriaData((prevData) => ({
                             ...prevData,
-                            estado: newStatus
+                            estado: newStatus,
+                            observacion: editedObservacion
                         }));
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Operación realizada con éxito!',
+                            text: 'Tutoría aceptada.',
+                        });
+                        router.push('/tutorias');
                     } else {
                         alert(`Error al ${newStatus.toLowerCase()} la tutoría`);
                     }
@@ -143,6 +161,7 @@ export default function VerTutoria() {
                             <textarea
                                 className="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:bg-gray-700 bg-gray-200"
                                 value={tutoriaData.observacion}
+                                onChange={(e) => setEditedObservacion(e.target.value)}
                             />
                         </label>
                     </div>

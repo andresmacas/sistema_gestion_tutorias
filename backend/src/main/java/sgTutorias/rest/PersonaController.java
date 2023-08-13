@@ -63,6 +63,7 @@ public class PersonaController {
             aux.put("telefono", p.getTelefono());
             aux.put("external_persona", p.getExternal_id());
             aux.put("rol", p.getRol().getNombre());
+            aux.put("correo", p.getCuenta().getCorreo());
             mapa.add(aux);
         }
         return RespuestaLista.respuestaLista(mapa);
@@ -150,6 +151,7 @@ public class PersonaController {
             aux.put("Identificacion", p.getIdentificacion());
             aux.put("Telefono", p.getTelefono());
             aux.put("Cuenta_external", p.getCuenta().getId());
+            aux.put("Correo", p.getCuenta().getCorreo());
             return RespuestaLista.respuestaLista(aux);
 
         } else {

@@ -20,6 +20,23 @@ export default function registro() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("------");
+        if (!isValidParalelo(data.paralelo)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Paralelo inválido',
+                text: 'Por favor, ingresa un paralelo válido.',
+            });
+            return;
+        }
+
+        if (!isValidPeriodo(data.periodo)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Periodo inválido',
+                text: 'Por favor, ingresa un periodo válido (válidos desde el 2023).',
+            });
+            return;
+        }
         console.log(data);
         crearRegistroTutoria(data).then((response) => {
             console.log(response);
@@ -53,6 +70,14 @@ export default function registro() {
             }));
         });
         console.log(asignaturas[event.target.selectedIndex].external_asignatura);
+    };
+
+    const isValidParalelo = (paralelo) => {
+        return /^[A-Za-z]$/.test(paralelo);
+    };
+
+    const isValidPeriodo = (periodo) => {
+        return periodo.length === 4 && parseInt(periodo) >= 2023;
     };
 
     const handleInputChange = (e) => {
@@ -90,7 +115,7 @@ export default function registro() {
                 <div className={styles.general}>
                     <SideNavBar />
                     <form className={styles.container} onSubmit={handleSubmit}>
-                        <h1 className={styles.tittle}>Tutorías Pendientes</h1>
+                        <h1 className={styles.tittle}>Registro Tutorías</h1>
                         <div className="w-full grid grid-cols-2 gap-4 mb-8">
                             <label className="block text-sm">
                                 <span className="text-gray-700 dark:text-gray-400">Asignatura</span>
@@ -111,9 +136,9 @@ export default function registro() {
                                     <input
                                         className="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
                                         placeholder="2023" name="periodo" value={data.periodo} onChange={handleInputChange}
+                                        required
                                     />
                                     <div className="absolute inset-y-0 flex items-center ml-3 pointer-events-none">
-                                        {/* Icono u otra representación visual aquí */}
                                     </div>
                                 </div>
                             </label>
@@ -124,9 +149,9 @@ export default function registro() {
                                     <input
                                         className="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
                                         placeholder="A" name="paralelo" value={data.paralelo} onChange={handleInputChange}
+                                        required
                                     />
                                     <div className="absolute inset-y-0 flex items-center ml-3 pointer-events-none">
-                                        {/* Icono u otra representación visual aquí */}
                                     </div>
                                 </div>
                             </label>

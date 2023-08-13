@@ -25,7 +25,7 @@ export default function Index() {
           <h1 className={styles.minimalist}>
             Nuestro compromiso con la excelencia educativa ha sido el motor impulsor para desarrollar el nuevo sistema de gestión de tutorías, orientado a docentes y estudiantes, nuestro objetivo es simplificar el acceso y seguimiento de las tutorías, permitiendo una comunicación efectiva entre los docentes y sus alumnos. A través de esta plataforma, aspiramos a brindar una experiencia más fluida y enriquecedora, enfocada en el desarrollo personal y académico de cada estudiante.
           </h1>
-          <Link href="/login" passHref>
+          <Link href="/login2" passHref>
             <button className={styles.button} style={{ width: '150px' }}>Iniciar sesión</button>
           </Link>
         </div>

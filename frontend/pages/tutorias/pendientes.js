@@ -7,11 +7,11 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { obtenerRol, obtenerExternal, listarTutoriasIndividuales } from '../api/api';
 import Link from 'next/link';
+import moment from 'moment';
 
 export default function pendientes() {
     const [role, setRole] = useState('');
     const [data, setData] = useState([]); // Estado para almacenar todas las tutorías
-
     const [external_id, setExternal_id] = useState(null);
     useEffect(() => {
         obtenerExternal().then((data) => {
@@ -51,6 +51,7 @@ export default function pendientes() {
                             <thead>
                                 <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                                     <th class="px-4 py-3">Materia</th>
+                                    <th class="px-4 py-3">Estudiante</th>
                                     <th class="px-4 py-3">Tema</th>
                                     <th class="px-4 py-3">Estado</th>
                                     <th class="px-4 py-3">Fecha</th>
@@ -81,6 +82,7 @@ export default function pendientes() {
                                                 </div>
                                             </div>
                                         </td>
+                                        <td className="px-4 py-3 text-sm">{tutoria.estudiante_nombre} {tutoria.estudiante_apellido}</td>
                                         <td className="px-4 py-3 text-sm">{tutoria.tema}</td>
                                         <td className="px-4 py-3 text-xs">
                                             <span className={`px-2 py-1 font-semibold leading-tight ${tutoria.estado === 'Aprobada' ? 'text-green-700 bg-green-100 dark:bg-green-700 dark:text-green-100 rounded-full' : tutoria.estado === 'Negada' ? 'rounded-full text-red-700 bg-red-100 dark:bg-red-700 dark:text-red-100' : tutoria.estado === 'Pendiente' ? 'rounded-full text-orange-700 bg-orange-100 dark:text-white dark:bg-orange-600' : ' rounded-full text-gray-700 bg-gray-100 dark:text-gray-100 dark:bg-gray-700'}`}>
@@ -88,8 +90,8 @@ export default function pendientes() {
                                             </span>
                                         </td>
                                         <td className="px-4 py-3 text-sm">
-                                            {tutoria.fecha_solicitada}
-                                            <p className="text-xs text-gray-600 dark:text-gray-400">{tutoria.horaInicio} - {tutoria.horas} hora(s)</p>
+                                            {moment(tutoria.fecha_solicitada).format('YYYY-MM-DD')}
+                                            <p className="text-xs text-gray-600 dark:text-gray-400">{moment(tutoria.fecha_solicitada).format('HH-mm')} - {tutoria.horas} hora(s)</p>
                                         </td>
                                         <td className="px-4 py-3">
                                             <div className="flex items-center space-x-4 text-sm">
