@@ -37,8 +37,10 @@ public class Tutorias implements java.io.Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaSolicitada;//
     //fecha inicio
-    @Temporal(TemporalType.DATE)
-    private Date fechaAceptada;  //
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaAceptada; 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaFinalizada;  //
     @Column(length = 100)
     private String estado;///////////////
     private Double horas;///  //

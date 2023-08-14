@@ -36,21 +36,7 @@ export default function solicitar() {
         event.preventDefault();
     };
     const handleSubmit = (event) => {
-        event.preventDefault();/*
-        const targetTimeZone = 'America/Guayaquil';
-
-        const originalDate = new Date(tutoriaData.fechaSolicitada);
-        const zonedDate = utcToZonedTime(originalDate, targetTimeZone);
-
-        const formattedDateString = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-
-        console.log(`Fecha original ${originalDate}`);
-        console.log(`Fecha formateada: ${formattedDateString}`);
-
-        tutoriaData.fechaSolicitada = formattedDateString;*/
-        /*console.log("fecha", tutoriaData.fechaSolicitada);
-        tutoriaData.fechaSolicitada = new Date(tutoriaData.fechaSolicitada).toISOString();
-        */
+        event.preventDefault();
 
         const targetTimeZone = 'America/Guayaquil';
 
@@ -113,13 +99,13 @@ export default function solicitar() {
         <AuthRoute>
             <div className={styles.general}>
                 <Head>
-                    <title>Solicitar tutoria</title>
+                    <title>Solicitar tutoría</title>
                 </Head>
                 <SideNavBar />
                 <form className={styles.container} onSubmit={handleSubmit}>
                     <div>
-                        <h1 className={styles.tittle}>Solicitar tutoria</h1>
-                        <h1 style={{ paddingBottom: '13px' }} className={styles.minimalistsubtitleWhite}>DATOS DE LA TUTORIA</h1>
+                        <h1 className={styles.tittle}>Solicitar tutoría</h1>
+                        <h1 style={{ paddingBottom: '13px' }} className={styles.minimalistsubtitleWhite}>DATOS DE LA TUTORÍA</h1>
                     </div>
                     <div className="w-full grid grid-cols-2 gap-4 mb-8">
                         <label className="block text-sm">

@@ -43,7 +43,7 @@
     position: absolute;
     left: 25px;
     border-radius: 10px;
-    background-color: rgb(19, 35, 64, 0.6);
+    background-color: rgb(19, 35, 64, 0.5);
     max-width: 50%;
 }
 
@@ -53,7 +53,7 @@
     font-family: var(--font-principal);
     font-size: 16px;
     border-radius: 15px;
-    background-color: #93bee360; /*a6d5ff73*/
+    background-color: #ffffffe0; /*a6d5ff73*/
     height: 48px;
     margin-left: 20px;
     margin-bottom: 10px;
@@ -61,5 +61,5 @@
 }
 
 .button:hover {
-    background-color: #93ccffa5; /* a6d5ff87 Color de fondo del botón al pasar el ratón por encima */
+    background-color: #edededa5; /* a6d5ff87 Color de fondo del botón al pasar el ratón por encima */
 }

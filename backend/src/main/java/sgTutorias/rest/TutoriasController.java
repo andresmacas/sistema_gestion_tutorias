@@ -107,6 +107,7 @@ public class TutoriasController {
             aux.put("external_id_tutoria", t.getExternal_id());
             aux.put("external_docente", t.getRegistroTutorias().getPersona().getExternal_id());
             aux.put("observacion", t.getObservacion());
+            aux.put("fecha_finalizada", t.getFechaFinalizada());
             aux.put("updateAt", t.getUpdateAt());
             if (t.getEstudiante() != null) {
                 aux.put("estudiante_external_id", t.getEstudiante().getExternal_id());
@@ -166,6 +167,12 @@ public class TutoriasController {
             tutoria.setObservacion(tutoriasWS.getObservacion());
             if (tutoriasWS.getFechaSolicitada() != null) {
                 tutoria.setFechaSolicitada(tutoriasWS.getFechaSolicitada());
+            }
+            if (tutoriasWS.getFechaAceptada() != null) {
+                tutoria.setFechaAceptada(tutoriasWS.getFechaAceptada());
+            }
+            if (tutoriasWS.getFechaFinalizada() != null) {
+                tutoria.setFechaFinalizada(tutoriasWS.getFechaFinalizada());
             }
             tutoria.setUpdateAt(new Date());
             tutoriasRepository.save(tutoria);

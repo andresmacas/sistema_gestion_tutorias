@@ -14,7 +14,7 @@ export default function Index() {
       </Head>
 
       <div>
-        </div>
+      </div>
 
       <div style={{ position: 'absolute', top: '30px', left: '10px', height: '59px', width: '200px', backgroundImage: `url(${logo.src})`, backgroundSize: 'cover' }} />
 
@@ -23,7 +23,7 @@ export default function Index() {
         <div className={styles.containerTarget}>
           <h1 className={styles.tittle}>Sistema de gestión de tutorías</h1>
           <h1 className={styles.minimalist}>
-            Nuestro compromiso con la excelencia educativa ha sido el motor impulsor para desarrollar el nuevo sistema de gestión de tutorías, orientado a docentes y estudiantes, nuestro objetivo es simplificar el acceso y seguimiento de las tutorías, permitiendo una comunicación efectiva entre los docentes y sus alumnos. A través de esta plataforma, aspiramos a brindar una experiencia más fluida y enriquecedora, enfocada en el desarrollo personal y académico de cada estudiante.
+            Nuestro enfoque en la excelencia educativa nos ha impulsado a desarrollar un nuevo sistema de tutorías para docentes y estudiantes. Buscamos simplificar el acceso y seguimiento de las tutorías, fomentando la comunicación eficaz entre docentes y alumnos. A través de esta plataforma, brindamos una experiencia fluida y enriquecedora, centrada en el crecimiento personal y académico de cada estudiante.
           </h1>
           <Link href="/login2" passHref>
             <button className={styles.button} style={{ width: '150px' }}>Iniciar sesión</button>

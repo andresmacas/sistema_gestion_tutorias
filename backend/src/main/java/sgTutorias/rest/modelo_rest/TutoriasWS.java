@@ -29,6 +29,7 @@ public class TutoriasWS {
     private Date fechaSolicitada;
     
     private Date fechaAceptada;
+    private Date fechaFinalizada;  //
     
     //@NotNull(message = "El estado de la tutoría es requerido.")
     private String estado;

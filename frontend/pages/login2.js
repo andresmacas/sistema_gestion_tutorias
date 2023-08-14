@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react'
 import Head from 'next/head';
 import { useState } from 'react';
@@ -64,7 +65,9 @@ export default function login2() {
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-200">
-            {/* Header */}
+            <Head>
+                <title>Inicio de sesión </title>
+            </Head>
             <header className="w-full text-center">
                 <Image
                     src="/images/logo_sac_unl.jpg" // Ruta relativa a la imagen
@@ -108,6 +111,11 @@ export default function login2() {
                     >
                         Iniciar Sesión
                     </button>
+                    <h1 style={{ paddingTop: '13px', paddingBottom: '13px'}} className='text-sm' >¿Aún no tienes cuenta? 
+                    <Link style={{ color: '#1e7fd6' }} href="/register2" passHref>
+                        Regístrate Aquí
+                    </Link>
+                </h1>
                 </div>
             </div>
         </div>

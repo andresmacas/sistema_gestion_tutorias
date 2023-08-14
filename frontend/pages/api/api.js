@@ -20,9 +20,6 @@ export const loginUser = async (correo, clave) => {
 
 // Metodo para registrar una persona
 export const registro = async (data) => {
-  const personas = await listarPersonas();
-  personas.data.filter(tutoria => tutoria.external_docente === external_id);
-  
   const response = await fetch(`${BASE_URL}/personas/guardar`, {
     method: 'POST',
     headers: {
@@ -221,6 +218,7 @@ export const tutoriasEst = async () => {
 
 // Metodo de Docente para editar tutoria con el external ID
 export const editarTutoria = async (external_id, data) => {
+  console.log("Editar", external_id, "con la data", data);
   const response = await fetch(`${BASE_URL}/tutorias/editar/${external_id}`, {
     method: 'POST',
     headers: {
@@ -298,4 +296,17 @@ export const asignaturasEst = async () => {
   const tutoriasFiltradas = result.data.filter(tutoria => tutoria.estudiante_external_id === external_id);
   console.log("TUTORIAS FILTRADAS ", tutoriasFiltradas);
   return tutoriasFiltradas;
+}
+
+export const finalizarTutoria = async (external_id, data) => {
+  console.log("Editar", external_id, "con la data", data);
+  const response = await fetch(`${BASE_URL}/tutorias/editar/${external_id}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  const result = await response.json();
+  return result;
 }

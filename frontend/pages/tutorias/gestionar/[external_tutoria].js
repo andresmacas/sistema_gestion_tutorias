@@ -5,6 +5,8 @@ import React, { useEffect, useState } from 'react'
 import moment from 'moment';
 import styles from '../../../styles/Home.module.css'
 import { obtenerTutoria, editarTutoria } from '@/pages/api/api'
+import { format } from 'date-fns';
+import { utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
 import { useRouter } from 'next/router';
 import Swal from 'sweetalert2';
 export default function VerTutoria() {
@@ -13,23 +15,13 @@ export default function VerTutoria() {
     const [actionTaken, setActionTaken] = useState(false);
     const { external_tutoria } = router.query;
     const [editedObservacion, setEditedObservacion] = useState('');
-    const [tutoriaData, setTutoriaData] = useState({
-        fecha_aceptada: '',
-        estado: '',
-        estudiante_external_id: '',
-        fecha_solicitada: '',
-        horas: 0,
-        tema: '',
-        modalidad: '',
-        estudiante_nombre: '',
-        estudiante_apellido: '',
-        observacion: '',
-    });
+    const [tutoriaData, setTutoriaData] = useState('');
 
     useEffect(() => {
         if (external_tutoria) {
             obtenerTutoria(external_tutoria).then((data) => {
                 setTutoriaData(data.data);
+                console.log("data cargada en linea 34 gestionar ", data.data);
             });
         }
     }, [external_tutoria]);
@@ -63,13 +55,22 @@ export default function VerTutoria() {
             }
 
             if (newStatus) {
-                editarTutoria(external_tutoria, { estado: newStatus, observacion: editedObservacion }).then((response) => {
+
+                const targetTimeZone = 'America/Guayaquil';
+
+                const originalDate = new Date();
+                const zonedDate = utcToZonedTime(originalDate, targetTimeZone);
+
+                const formattedDateString = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+                console.log(formattedDateString);
+                editarTutoria(external_tutoria, { estado: newStatus, observacion: editedObservacion, fechaAceptada: formattedDateString }).then((response) => {
                     if (response.code === "200 OK") {
                         // Actualizar el estado local de la tutoría
                         setTutoriaData((prevData) => ({
                             ...prevData,
                             estado: newStatus,
-                            observacion: editedObservacion
+                            observacion: editedObservacion,
+                            fecha_aceptada: formattedDateString,
                         }));
                         Swal.fire({
                             icon: 'success',

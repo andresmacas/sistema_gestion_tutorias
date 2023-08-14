@@ -38,13 +38,13 @@ function SideNavBar() {
                 <div className='mt-4 flex flex-col gap-4'>
                     <div className='items-center mt-4 flex flex-col gap-4'>
                         <div className={styles.icon} style={{ width: `${logow}`, height: `${logow}`, backgroundImage: `url("/images/logo_unl.png")` }} />
-                        <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 overflow-hidden'}`} >Gestion de Tutorias</span>
+                        <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 overflow-hidden'}`} >Gestión de Tutorías</span>
                     </div>
-                    <h1 className={styles2.minimalistsubtitle}>Menu</h1>
+                    <h1 className={styles2.minimalistsubtitle}>Menú</h1>
 
                     <Link href="/tutorias" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-slate-300 dark:hover:bg-zinc-900 rounded-md'>
                         <div className={styles.icon} style={{ backgroundImage: `url("/images/icon_tutorias.png")` }} />
-                        <span className={` whitespace-pre duration-500 ${!open && 'opacity-0 overflow-hidden hidden'}`}>Tutorias</span>
+                        <span className={` whitespace-pre duration-500 ${!open && 'opacity-0 overflow-hidden hidden'}`}>Tutorías</span>
                     </Link>
 
                     <Link href="/asignaturas" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-slate-300 dark:hover:bg-zinc-900 rounded-md'>
@@ -72,7 +72,7 @@ function SideNavBar() {
                         </Link>
                     )}
 
-                    <Link onClick={handleLogout} href="/" passHref className='mt-32 group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-slate-300 dark:hover:bg-zinc-900 rounded-md'>
+                    <Link onClick={handleLogout} href="/" passHref className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-slate-300 dark:hover:bg-zinc-900 rounded-md'>
                         <div className={styles.icon} style={{ backgroundImage: `url("/images/icon_logout.png")` }} />
                         <span className={` whitespace-pre duration-500 ${!open && 'opacity-0 overflow-hidden hidden'}`}>Cerrar Sesión</span>
                     </Link>

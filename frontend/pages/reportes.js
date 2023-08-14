@@ -97,7 +97,7 @@ export default function asignaturas() {
 
 
         // Agregar tabla
-        const headers = [[" Fecha   ", " Tiempo Tutoria     ", " Datos del Estudiante    ", " Tema Tratado  ", " Modalidad  "]];
+        const headers = [[" Fecha   ", " Tiempo Tutoría     ", " Datos del Estudiante    ", " Tema Tratado  ", " Modalidad  ", " Observación  ", " Estado  "]];
 
         const tableData = [];
         tutorias.forEach((rowData) => {
@@ -106,12 +106,16 @@ export default function asignaturas() {
             }
             console.log("EXTERNAL REGISTRO TUTORIAS", rowData.external_registroTutoria);
             console.log("EXTERNAL REGISTRO ", item.external_registro);
+            const fechaFormateada = new Date(rowData.fecha_solicitada).toISOString().split('T')[0];
+
             const row = [
-                rowData.fecha_solicitada,
+                fechaFormateada,
                 rowData.horas,
                 `${rowData.estudiante_nombre} ${rowData.estudiante_apellido}`,
                 rowData.tema,
                 rowData.modalidad,
+                rowData.observacion,
+                rowData.estado,
             ];
             tableData.push(row);
         });
@@ -127,7 +131,7 @@ export default function asignaturas() {
             headStyles: {
                 fillColor: '#f2f2f2',
                 textColor: '#000',
-                fontSize: 12, // 
+                fontSize: 9, // 
                 fontStyle: 'bold',
             },
             bodyStyles: {

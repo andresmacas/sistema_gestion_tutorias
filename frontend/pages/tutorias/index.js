@@ -6,16 +6,20 @@ import moment from 'moment';
 import Image from "next/image";
 import Swal from 'sweetalert2'
 import { useState, useEffect } from "react";
-import { obtenerRol, listarTutorias, tutoriasDoc, asignaturasEst } from "../api/api";
+import { obtenerRol, listarTutorias, tutoriasDoc, asignaturasEst, finalizarTutoria, editarTutoria } from "../api/api";
 import Link from "next/link";
 import { utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
-import { format } from 'date-fns';
+import { format, set } from 'date-fns';
+import { useRouter } from "next/router";
 
 export default function Tutorias() {
+    const router = useRouter();
     const [role, setRole] = useState('');
     const [data, setData] = useState([]); // Estado para almacenar todas las tutorías
     const [currentDate, setCurrentDate] = useState(''); // Estado para almacenar la fecha actual
-
+    const [tutoriaFinalizada, setTutoriaFinalizada] = useState('');
+    const [nuevaFecha, setNuevaFecha] = useState('');
+    // Estado para almacenar la fecha actual
     const detalles = (index) => {
         Swal.fire({
             title: `${data[index].materia}`,
@@ -28,6 +32,7 @@ export default function Tutorias() {
               <p><strong>Tema:</strong> ${data[index].tema}</p>
               <p><strong>Modalidad:</strong> ${data[index].modalidad}</p>
               <p><strong>Materia:</strong> ${data[index].materia}</p>
+              ${data[index].fecha_finalizada !== null ? `<p><strong>Fecha Finalizada:</strong> ${moment(data[index].fecha_finalizada).format("YYYY-MM-DD - HH:mm")}</p>` : ''}
               <p><strong>Observación:</strong> ${data[index].observacion}</p>
             `
         });
@@ -47,18 +52,91 @@ export default function Tutorias() {
             title: 'Editar Fechas',
             html: `
                 <div>
-                  <p>Fecha Actual: ${data[index].fecha_solicitada}</p>
+                    <p>Fecha Actual: ${moment(data[index].fecha_solicitada).format("YYYY-MM-DD - HH:mm")}</p>
+                    <input
+                        type="datetime-local"
+                        id="fechaEditable"
+                        class="swal2-input"
+                    />
+                </div>
+            `,
+            focusConfirm: false,
+            preConfirm: () => {
+                const fechaEditable = document.getElementById('fechaEditable').value;
+                const targetTimeZone = 'America/Guayaquil';
+                const originalDate = new Date(fechaEditable);
+                const zonedDate = utcToZonedTime(originalDate, targetTimeZone);
+                const formattedDateString = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+                console.log('fecha a editar ' + data[index].fecha_solicitada);
+                console.log('fecha editable ' + formattedDateString);
+                reprogramarTutoria(index, formattedDateString);
+            },
+        });
+    };
+
+    const reprogramarTutoria = async (index, formattedDateString) => {
+        try {
+            console.log('console nueva fecha   ' + formattedDateString);
+            console.log('external tutoria ' + data[index].external_id_tutoria);
+            // Make API call to update the tutoria
+            editarTutoria(data[index].external_id_tutoria, {
+                estado: 'Re-Asignada', // Replace with the actual value you want
+                observacion: data[index].observacion,
+                fechaSolicitada: formattedDateString, // Use the nuevaFecha state value here
+            }).then((response) => {
+                if (response.code === "200 OK") {
+                    Swal.fire({
+                        title: 'Tutoría Reprogramada',
+                        text: 'La tutoría ha sido reprogramada exitosamente.',
+                        icon: 'success',
+                    });
+                    router.push('/tutorias');
+                }
+            });
+            // Handle response and update the data state if necessary
+            // ...
+        } catch (error) {
+            Swal.fire({
+                title: 'Error',
+                text: 'Hubo un error al reprogramar la tutoría.',
+                icon: 'error',
+            });
+        }
+    };
+
+    const handleFinalizar = (index) => {
+        Swal.fire({
+            title: 'Finalizar Tutoría',
+            html: `
+                <div>
+                <p><strong>${data[index].materia}</strong></p>
+                <p><a>${data[index].estudiante_nombre} ${data[index].estudiante_apellido}</a></p>
+                <p>Agregue una observación:</p>
                   <input
-                    type="datetime-local"
-                    id="fechaEditable"
+                    placeholder="El estudiante asistió y..."
+                    type="textarea"
+                    id="observacion"
                     class="swal2-input"
                   />
                 </div>
               `,
             focusConfirm: false,
-            preConfirm: () => {
-                const fechaEditable = document.getElementById('fechaEditable').value;
-                setNuevaFecha(fechaEditable);
+            preConfirm: async () => {
+                const popup = Swal.getPopup();
+                const observacion = popup.querySelector('#observacion').value;
+                const targetTimeZone = 'America/Guayaquil';
+                const originalDate = new Date();
+                const zonedDate = utcToZonedTime(originalDate, targetTimeZone);
+                const formattedDateString = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+                finalizarTutoria(data[index].external_id_tutoria, { observacion: observacion, estado: "Finalizada", fechaFinalizada: formattedDateString })
+                    .then(res => {
+                        console.log(res);
+                        router.reload();
+                    })
+                    .catch(error => {
+                        console.error("Error al finalizar la tutoría:", error);
+                    });
+                console.log("ok finalizar" + observacion);
             },
         });
     };
@@ -118,7 +196,6 @@ export default function Tutorias() {
                         <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                             {data.map((tutoria, index) => (
                                 <tr key={index} className="text-gray-700 dark:text-gray-400">
-                                    {(tutoria.estado == "Finalizada" && <div></div>)}
                                     <td className="px-4 py-3">
                                         <div className="flex items-center text-sm">
                                             <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
@@ -130,7 +207,6 @@ export default function Tutorias() {
                                                     height={32} // Altura de la imagen en píxeles
                                                     loading="lazy"
                                                 />
-                                                <div className="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                                             </div>
                                             <div>
                                                 <p className="font-semibold">{tutoria.materia}</p>
@@ -169,10 +245,10 @@ export default function Tutorias() {
                                     )}
                                     {role === 'docente' ? (
 
-                                        moment(currentDate).isAfter(tutoria.fecha_solicitada) ? (
+                                        moment(currentDate).isAfter(tutoria.fecha_solicitada) && tutoria.estado !== "Finalizada" ? (
                                             <td className="px-4 py-3 text-center">
                                                 <div>
-                                                    <button className="items-center justify-between px-4 py-2 text-sm text-white transition-colors duration-1000 bg-red-600 border border-transparent rounded-lg hover:bg-red-700 w-fit">
+                                                    <button onClick={() => handleFinalizar(index)} className="items-center justify-between px-4 py-2 text-sm text-white transition-colors duration-1000 bg-red-600 border border-transparent rounded-lg hover:bg-red-700 w-fit">
                                                         Finalizar
                                                     </button>
                                                 </div>
@@ -200,9 +276,11 @@ export default function Tutorias() {
                                         tutoria.estado === 'Re-Asignada' && role === 'estudiante' ? (
                                             <td className="px-4 py-3 text-center">
                                                 <div>
-                                                    <button onClick={() => detalles(index)} className="items-center justify-between px-4 py-2 text-sm text-white transition-colors duration-1000 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 w-fit">
-                                                        Gestionar
-                                                    </button>
+                                                    <Link href={`/tutorias/gestionar/${tutoria.external_id_tutoria}`}>
+                                                        <button className="items-center justify-between px-4 py-2 text-sm text-white transition-colors duration-1000 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 w-fit">
+                                                            Gestionar
+                                                        </button>
+                                                    </Link>
                                                 </div>
                                             </td>
                                         ) : (
