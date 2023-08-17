@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { PersonaExternal, Session, Rol, ObtenerExternal, CerrarSession, ObtenerRol, EstaSession } from './useSession';
-
 const BASE_URL = 'http://localhost:8095/api/v1'; // Reemplaza esta URL con la URL base de tu API
 
 export const loginUser = async (correo, clave) => {
